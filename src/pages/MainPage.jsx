@@ -8,23 +8,30 @@ import "../css/MainPage.css"
 export default function MainPage() {
 
   const { lists, addList, renameList, addMedToList, addMedToNewList } = useMed()
-  const [editingId, setEditingId] = useState(null)
   const [selectedList, setSelectedList] = useState(null)
   const [selectedMed, setSelectedMed] = useState(null)
-  const [newName, setNewName] = useState("")
+  const [editingListId, setEditingListId] = useState(null)
+  const [newListName, setNewListName] = useState("")
   const [keyword, setKeyword] = useState("")
-  
+  const [noteListId , setNoteListId ] = useState(null)
+  const [listNote, setListNote] = useState("")
 
   const filtered = keyword === "" ? [] : meds.filter((med) => 
     med.med_name?.toLowerCase().includes(keyword.toLowerCase()))
 
   const handleAdd = () => {
-    if (lists.length === 0) {
+    if (lists.length === 0 && selectedMed !== null) {
       addMedToNewList(selectedMed)
       return
     }
     addMedToList(selectedList, selectedMed)
   }
+
+  useEffect(() => {
+    if (lists.length > 0 && selectedList === null) {
+      setSelectedList(lists[0].id)
+    }
+  }, [lists])
 
   return (
     <div className="main-container">
@@ -34,10 +41,13 @@ export default function MainPage() {
           setSelectedMed(null)
         }} placeholder="Search Medication" />
 
-        {keyword === "" && <p>Any Medication Name to Search</p>}
+        {keyword === "" && selectedMed === null && <p>Any Medication Name to Search</p>}
 
         {keyword !== "" && selectedMed === null && filtered.map((med, index) =>
-          <div key={index} onClick={() => setSelectedMed(med)}>
+          <div key={index} onClick={() => {
+            setSelectedMed(med)
+            setKeyword("")
+          }}>
             <p>{med.med_name}</p>
           </div>
         )}
@@ -46,9 +56,9 @@ export default function MainPage() {
 
         {selectedMed !== null && (
           <div>
-            <p>{selectedMed.med_name}</p>
-            <p>{selectedMed.keyword}</p>
-            <p>{selectedMed.use_for}</p>
+            <h4>{selectedMed.med_name}</h4>
+            <p>Disease: {selectedMed.keyword}</p>
+            <p>Use For: {selectedMed.use_for}</p>
           </div>
         )}
         
@@ -61,7 +71,6 @@ export default function MainPage() {
 
         <button onClick={() => {
           handleAdd()
-          setKeyword("")
           setSelectedMed(null)
         }}>Add</button>
 
@@ -73,25 +82,35 @@ export default function MainPage() {
           <div key={list.id}>
 
             {/* change list's name */}
-            {editingId === list.id
-              ? <input value={newName}
-                onChange={(e) => setNewName(e.target.value)}
+            {editingListId === list.id
+              ? <input value={newListName}
+                onChange={(e) => setNewListName(e.target.value)}
                 onBlur={() => {
-                  renameList(editingId, newName)
-                  setEditingId(null)
+                  renameList(editingListId, newListName)
+                  setEditingListId(null)
                 }}
               />
               : <p onClick={() => {
-                setEditingId(list.id)
-                setNewName(list.name)
+                setEditingListId(list.id)
+                setNewListName(list.name)
               }}>{list.name}</p>
+            }
+
+            {noteListId === list.id
+            ? <textarea value={listNote}
+              onChange={(e) => setListNote(e.target.value)}
+              onBlur={() => setNoteListId(null)}
+              />
+            : <button onClick={() => {
+              setNoteListId(list.id)
+            }}>Note</button>
             }
 
             {list.items.map((med, index) =>
               <div key={index}>
-                <p>{med.med_name}</p>
-                <p>{med.keyword}</p>
-                <p>{med.use_for}</p>
+                <h4>{index + 1}. {med.med_name}</h4>
+                <p>Disease: {med.keyword}</p>
+                <p>Use For: {med.use_for}</p>
               </div>
             )}
 

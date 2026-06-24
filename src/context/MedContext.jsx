@@ -19,9 +19,14 @@ export function MedProvider({ children }) {
   }
 
   const addMedToList = (listId, med) => {
-    setLists(lists.map(list => (
-    list.id === Number(listId) ? {...list, items: [...list.items, med]} : list
-    )))
+    setLists(lists.map(list => {
+    if (list.id === Number(listId)) {
+      const existed = list.items.some(item => item.id === med.id)
+      if (existed) return list
+      return {... list, items: [... list.items, med]}
+    }
+    return list
+    }))
   }
 
   const addMedToNewList = (med) => {
