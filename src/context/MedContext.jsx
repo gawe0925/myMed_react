@@ -19,13 +19,23 @@ export function MedProvider({ children }) {
   }
 
   const addMedToList = (listId, med) => {
-    setLists(lists.mpa(list => {
-        list.id === id ? {...list, items: [...list.items, med] } : list
-    }))
+    setLists(lists.map(list => (
+    list.id === Number(listId) ? {...list, items: [...list.items, med]} : list
+    )))
+  }
+
+  const addMedToNewList = (med) => {
+    const newId = Date.now()
+    const newList = {
+      id: newId,
+      name: "list_1",
+      items: [med]
+    }
+    setLists([newList])
   }
 
   return (
-    <MedContext.Provider value={{ lists, addList, renameList, addMedToList }}>
+    <MedContext.Provider value={{ lists, addList, renameList, addMedToList, addMedToNewList }}>
       {children}
     </MedContext.Provider>
   )

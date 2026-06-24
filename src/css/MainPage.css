@@ -1,0 +1,16 @@
+/* MainPage.css */
+.main-container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel {
+  width: 50%;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.right-panel {
+  width: 50%;
+  padding: 20px;
+}
