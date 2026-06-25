@@ -99,7 +99,7 @@ src/
 Pharmacy Assistant turned Software Developer — building tools that solve real problems from the pharmacy floor.
 
 [![GitHub](https://img.shields.io/badge/GitHub-gawe0925-181717?style=flat&logo=github)](https://github.com/gawe0925)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Mark_Cheng-0077B5?style=flat&logo=linkedin)](https://linkedin.com/in/your-linkedin)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Mark_Cheng-0077B5?style=flat&logo=linkedin)]([https://linkedin.com/in/your-linkedin](https://www.linkedin.com/in/mark-cheng-b9175025b/))
 
 ---
 
