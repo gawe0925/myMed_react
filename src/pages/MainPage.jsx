@@ -2,12 +2,13 @@ import { useState, useEffect } from "react"
 import { redirect, useNavigate } from "react-router-dom"
 import meds from "../data/medications.json"
 import { useMed } from "../context/MedContext"
+import toast, { Toaster } from 'react-hot-toast';
 import "../css/MainPage.css"
 
 
 export default function MainPage() {
 
-  const { lists, addList, renameList, addMedToList, addMedToNewList } = useMed()
+  const { lists, addList, renameList, addMedToList, addMedToNewList, removeList } = useMed()
   const [selectedList, setSelectedList] = useState(null)
   const [selectedMed, setSelectedMed] = useState(null)
   const [editingListId, setEditingListId] = useState(null)
@@ -15,21 +16,33 @@ export default function MainPage() {
   const [keyword, setKeyword] = useState("")
   const [noteListId , setNoteListId ] = useState(null)
   const [listNote, setListNote] = useState("")
+  const [removeListId, setRemoveListId] = useState(null)
+  const navigate = useNavigate()
+  const notify = () => toast('Here is your toast.')
 
   const filtered = keyword === "" ? [] : meds.filter((med) => 
     med.med_name?.toLowerCase().includes(keyword.toLowerCase()))
 
   const handleAdd = () => {
+    if (selectedMed === null) return toast.error("Select a medication")
+    
     if (lists.length === 0 && selectedMed !== null) {
       addMedToNewList(selectedMed)
       return
     }
-    addMedToList(selectedList, selectedMed)
+
+    const result = addMedToList(selectedList, selectedMed)
+    const listName = lists.find(list => list.id === selectedList).name
+
+    if (!result) {toast.error(selectedMed.med_name + " already in list: " + listName)}
   }
 
   useEffect(() => {
     if (lists.length > 0 && selectedList === null) {
       setSelectedList(lists[0].id)
+    }
+    else if (lists.length == 0) {
+      navigate("/search")
     }
   }, [lists])
 
@@ -96,6 +109,10 @@ export default function MainPage() {
               }}>{list.name}</p>
             }
 
+            {/* remove list */}
+            <button onClick={() => removeList(list.id)}> X </button>
+
+            {/* Note section */}
             {noteListId === list.id
             ? <textarea value={listNote}
               onChange={(e) => setListNote(e.target.value)}
@@ -113,6 +130,8 @@ export default function MainPage() {
                 <p>Use For: {med.use_for}</p>
               </div>
             )}
+
+          <Toaster />
 
           </div>
 

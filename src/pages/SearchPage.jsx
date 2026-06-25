@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { redirect, useNavigate } from "react-router-dom"
 import meds from "../data/medications.json"
 import { useMed } from "../context/MedContext"
+import toast, { Toaster } from 'react-hot-toast';
 
 
 export default function SearchPage() {
@@ -9,6 +10,7 @@ export default function SearchPage() {
   const [keyword, setKeyword] = useState("")
   const [selectedMed, setSelectedMed] = useState(null)
   const { lists, addList, renameList, addMedToList, addMedToNewList } = useMed()
+  const notify = () => toast('Here is your toast.')
   const navigate = useNavigate()
 
   const filtered = keyword === "" ? [] : meds.filter((med) => 
@@ -18,6 +20,7 @@ export default function SearchPage() {
     <div>
       <input value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="Search Medication" />
       <button onClick={() => {
+        if (selectedMed === null) return toast.error("Select a medication")
         addMedToNewList(selectedMed)
         navigate("/app")
       }}>Add</button>
@@ -43,7 +46,7 @@ export default function SearchPage() {
           <p>Use For: {selectedMed.use_for}</p>
         </div>
       )}
-      
+      <Toaster />
     </div>
   )
 

@@ -19,14 +19,16 @@ export function MedProvider({ children }) {
   }
 
   const addMedToList = (listId, med) => {
-    setLists(lists.map(list => {
-    if (list.id === Number(listId)) {
-      const existed = list.items.some(item => item.id === med.id)
-      if (existed) return list
-      return {... list, items: [... list.items, med]}
-    }
-    return list
-    }))
+
+    const targetList = lists.find(list => list.id === listId)
+
+    const existed = targetList.items.some(item => med.id === item.id)
+
+    if (existed) return false
+
+    setLists({...list, items: [...list.items, med]})
+    return true
+
   }
 
   const addMedToNewList = (med) => {
@@ -39,8 +41,12 @@ export function MedProvider({ children }) {
     setLists([newList])
   }
 
+  const removeList = (listId) => {
+    setLists(lists.filter(list => list.id !== listId))
+  }
+
   return (
-    <MedContext.Provider value={{ lists, addList, renameList, addMedToList, addMedToNewList }}>
+    <MedContext.Provider value={{ lists, addList, renameList, addMedToList, addMedToNewList, removeList }}>
       {children}
     </MedContext.Provider>
   )
