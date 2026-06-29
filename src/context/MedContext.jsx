@@ -1,17 +1,25 @@
-import { children, createContext, useContext, useState } from "react"
+import { children, createContext, useContext, useEffect, useState } from "react"
 
 const MedContext = createContext()
 
 export function MedProvider({ children }) {
-  const [lists, setLists] = useState([])
+  const [lists, setLists] = useState(JSON.parse(localStorage.getItem("lists")) || [])
+
+  useEffect(() => {
+    localStorage.setItem("lists", JSON.stringify(lists))
+  }, [lists])
 
   const addList = () => {
+
+    if (lists.length === 1) return false
+
     setLists([...lists, {
         id: Date.now(),
         name: `list_${lists.length +1}`,
         items: []
     }
     ])
+    return true
   }
 
   const renameList = (id, newName) => {
@@ -26,7 +34,7 @@ export function MedProvider({ children }) {
 
     if (existed) return false
 
-    setLists({...list, items: [...list.items, med]})
+    setLists(lists.map(list => ({...list, items: [...list.items, med]})))
     return true
 
   }

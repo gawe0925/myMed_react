@@ -18,7 +18,6 @@ export default function MainPage() {
   const [listNote, setListNote] = useState("")
   const [removeListId, setRemoveListId] = useState(null)
   const navigate = useNavigate()
-  const notify = () => toast('Here is your toast.')
 
   const filtered = keyword === "" ? [] : meds.filter((med) => 
     med.med_name?.toLowerCase().includes(keyword.toLowerCase()))
@@ -26,9 +25,16 @@ export default function MainPage() {
   const handleAdd = () => {
     if (selectedMed === null) return toast.error("Select a medication")
     
+      // create init list
     if (lists.length === 0 && selectedMed !== null) {
       addMedToNewList(selectedMed)
       return
+    }
+
+    // set limit for items for each list
+    const itemLen = lists.find(list => list.id === selectedList).items.length
+    if (itemLen === 15) {
+      return toast("⚠️ Maximum items reached")
     }
 
     const result = addMedToList(selectedList, selectedMed)
@@ -49,6 +55,9 @@ export default function MainPage() {
   return (
     <div className="main-container">
       <div className="left-panel">
+
+      <Toaster />
+
         <input value={keyword} onChange={(e) => {
           setKeyword(e.target.value)
           setSelectedMed(null)
@@ -87,7 +96,10 @@ export default function MainPage() {
           setSelectedMed(null)
         }}>Add</button>
 
-        <button onClick={() => addList()}>Add List</button>
+        <button onClick={() => {
+          const result = addList()
+          if (!result) return toast.error("Login to add more lists")
+        }}>Add List</button>
 
       </div>
       <div className="right-panel">
@@ -130,8 +142,6 @@ export default function MainPage() {
                 <p>Use For: {med.use_for}</p>
               </div>
             )}
-
-          <Toaster />
 
           </div>
 

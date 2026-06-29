@@ -12,6 +12,7 @@ export default function LoginPage() {
         <div>
             <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
             <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+            <button onClick={() => navigate()}>Register</button>
             <button onClick={() => navigate("/search")}>Login</button>
         </div>
     )
