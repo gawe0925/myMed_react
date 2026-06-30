@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext"
 import toast, { Toaster } from 'react-hot-toast';
 
 
-
 export default function LoginPage() {
 
     const { user, login, logout, register } = useAuth()
@@ -36,6 +35,8 @@ export default function LoginPage() {
                 }
             }
             }>Login</button>
+            <p>test@gmail.com</p>
+            <p>test123</p>
         </div>
 
     )
