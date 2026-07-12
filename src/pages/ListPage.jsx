@@ -10,7 +10,11 @@ import "../css/ListPage.css"
 
 export default function ListPage() {
 
-  const { meds, lists, addList, renameList, addMedToList, addMedToNewList, removeList } = useMed()
+  const { 
+    meds, lists, addList, renameList, addMedToList, 
+    addMedToNewList, removeList
+   } = useMed()
+
   const { user, logout } = useAuth()
   const [selectedList, setSelectedList] = useState(null)
   const [selectedMed, setSelectedMed] = useState(null)
@@ -29,7 +33,7 @@ export default function ListPage() {
   const handleAdd = () => {
     if (selectedMed === null) return toast.error("Select a medication")
     
-      // create init list
+    // create init list
     if (lists.length === 0 && selectedMed !== null) {
       addMedToNewList(selectedMed)
       return
@@ -48,12 +52,23 @@ export default function ListPage() {
   }
 
   useEffect(() => {
-    if (lists.length > 0 && selectedList === null) {
+    if (!user) {
+
+      if (lists.length > 0 && selectedList === null) {
       setSelectedList(lists[0].id)
+      }
+
+      else if (lists.length === 0) {
+        navigate("/search")
+      }
     }
-    else if (lists.length == 0) {
-      navigate("/search")
+
+    else if (user) {
+      if (lists.length === 0) {
+        navigate("/search")
+      }
     }
+
   }, [lists])
 
   return (
@@ -64,8 +79,6 @@ export default function ListPage() {
         <div className="left-panel">
 
         <Toaster />
-
-        
 
           <input value={keyword} onChange={(e) => {
             setKeyword(e.target.value)

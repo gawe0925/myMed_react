@@ -3,13 +3,19 @@ import { useAuth } from "./AuthContext"
 
 // firebase
 import { db } from "../firebase"
-import { collection, getDocs, addDoc, deleteDoc, query, where, doc, setDoc } from "firebase/firestore"
+import { collection, getDocs, getDoc, addDoc, deleteDoc, query, where, doc, setDoc } from "firebase/firestore"
+
 
 const MedContext = createContext()
 
 export function MedProvider({ children }) {
-
+  
+  const { user } = useAuth()
   const [meds, setMeds] = useState([])
+  const [lists, setLists] = useState([])
+  const [isReady, setIsReady] = useState(false)
+
+  // ================== firebase ==================
 
   useEffect(() => {
     const fetchMeds = async () => {
@@ -17,16 +23,66 @@ export function MedProvider({ children }) {
       const data = snapshot.docs.map(doc => ({ firestoreId: doc.id, ...doc.data() }))
       setMeds(data)
     }
+
     fetchMeds()
   }, [])
 
-  const { user } = useAuth()
 
-  const [lists, setLists] = useState(JSON.parse(localStorage.getItem("lists")) || [])
+
+  // ================== firebase ==================
 
   useEffect(() => {
-    localStorage.setItem("lists", JSON.stringify(lists))
-  }, [lists])
+    async function initLists(){
+
+      if (user) {
+        const docRef = doc(db, "userLists", user.uid)
+        const snapshot = await getDoc(docRef)
+        const cloudLists = snapshot.exists()
+          ? (snapshot.data().lists ?? [])
+          : []
+        
+        const localLists = JSON.parse(localStorage.getItem("lists") || "[]")
+        const localListId = localLists.length !== 0 
+        ? localLists[0].id 
+        : ""
+        //  to check if there is a duplicated list
+        const notToMerge = cloudLists.some(list => list.id === localListId)
+
+        if (notToMerge) {
+          setLists(cloudLists)
+        } else {
+          const merged = [...cloudLists, ...localLists]
+
+          setLists(merged)
+        }
+
+      } else {
+        const localLists = JSON.parse(localStorage.getItem("lists") || "[]")
+        setLists(localLists)
+      }
+
+      setIsReady(true)
+    }
+
+    initLists()
+
+  }, [user])
+
+  useEffect(() =>{
+    if (!user) return
+    if (!isReady) return
+
+    const saveLists = async () => {
+        if (!user) return
+
+        await setDoc(doc(db, "userLists", user.uid), {
+            lists: lists
+        })
+    }
+
+    console.info("auto synced")
+
+  }, [user, isReady, lists])
 
   const addList = () => {
 
@@ -78,7 +134,9 @@ export function MedProvider({ children }) {
   }
 
   return (
-    <MedContext.Provider value={{ meds, lists, addList, renameList, addMedToList, addMedToNewList, removeList }}>
+    <MedContext.Provider value={{ 
+      meds, lists, addList, renameList, addMedToList, addMedToNewList, removeList,
+     }}>
       {children}
     </MedContext.Provider>
   )

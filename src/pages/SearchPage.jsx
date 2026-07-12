@@ -8,7 +8,11 @@ import Navbar from "../components/Navbar"
 
 export default function SearchPage() {
 
-  const { meds, lists, addList, renameList, addMedToList, addMedToNewList } = useMed()
+  const { 
+    meds, lists, addList, renameList, 
+    addMedToList, addMedToNewList
+   } = useMed()
+  
   const [keyword, setKeyword] = useState("")
   const [selectedMed, setSelectedMed] = useState(null)
   const { user, logout } = useAuth()
@@ -18,6 +22,12 @@ export default function SearchPage() {
   const filtered = keyword === "" ? [] : meds.filter((med) => 
     med.med_name?.toLowerCase().includes(keyword.toLowerCase()))
 
+  useEffect(() => {
+    if (lists.length > 0 && user) {
+      navigate("/lists")
+    }
+  }, [lists])
+
   return (
     <div>
 
@@ -25,10 +35,6 @@ export default function SearchPage() {
 
       <Navbar />
       <div className="main-container">
-
-          {lists !== [] && user 
-          ? navigate("/lists") 
-          : null}
 
           <input value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="Search Medication" />
           <button onClick={() => {

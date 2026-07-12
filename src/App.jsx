@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route  } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { MedProvider } from "./context/MedContext"
+// import { SyncProvider } from "./context/SyncContext";
 import LoginPage from "./pages/LoginPage";
 import ListPage from "./pages/ListPage";
 import SearchPage from "./pages/SearchPage";
