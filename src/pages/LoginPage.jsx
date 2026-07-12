@@ -19,7 +19,7 @@ export default function LoginPage() {
 
             <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
             <input value={password} type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-            <button onClick={() => navigate()}>Register</button>
+            <button onClick={() => navigate("/register")}>Register</button>
             <button onClick={async () => {
                 if (!email || !password) {
                     toast.error("Enter email and password")

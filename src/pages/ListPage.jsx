@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import { redirect, useNavigate } from "react-router-dom"
-// import meds from "../data/medications.json"
 import { useMed } from "../context/MedContext"
 import { useAuth } from "../context/AuthContext"
 import toast, { Toaster } from 'react-hot-toast';
