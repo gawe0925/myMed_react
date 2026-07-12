@@ -52,23 +52,13 @@ export default function ListPage() {
   }
 
   useEffect(() => {
-    if (!user) {
-
-      if (lists.length > 0 && selectedList === null) {
-      setSelectedList(lists[0].id)
-      }
-
-      else if (lists.length === 0) {
-        navigate("/search")
-      }
+    if (lists.length > 0 && selectedList === null) {
+    setSelectedList(lists[0].id)
     }
 
-    else if (user) {
-      if (lists.length === 0) {
-        navigate("/search")
-      }
+    else if (lists.length === 0) {
+      navigate("/search")
     }
-
   }, [lists])
 
   return (
@@ -144,7 +134,7 @@ export default function ListPage() {
               }
 
               {/* remove list */}
-              <button onClick={() => removeList(list.id)}> X </button>
+              <button onClick={() => removeList(Number(list.id))}> X </button>
 
               {/* Note section */}
               {noteListId === list.id

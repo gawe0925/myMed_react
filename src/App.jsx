@@ -1,11 +1,10 @@
-import { BrowserRouter, Routes, Route  } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
+import { BrowserRouter, Routes, Route  } from "react-router-dom"
+import { AuthProvider } from "./context/AuthContext"
 import { MedProvider } from "./context/MedContext"
-// import { SyncProvider } from "./context/SyncContext";
-import LoginPage from "./pages/LoginPage";
-import ListPage from "./pages/ListPage";
-import SearchPage from "./pages/SearchPage";
-import PublicRoute from "./routes/PublicRoute";
+import LoginPage from "./pages/LoginPage"
+import ListPage from "./pages/ListPage"
+import SearchPage from "./pages/SearchPage"
+import PublicRoute from "./routes/PublicRoute"
 
 
 export default function App() {

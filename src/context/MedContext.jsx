@@ -33,7 +33,8 @@ export function MedProvider({ children }) {
 
   useEffect(() => {
     async function initLists(){
-
+      if (!user) return
+      
       if (user) {
         const docRef = doc(db, "userLists", user.uid)
         const snapshot = await getDoc(docRef)
@@ -80,6 +81,7 @@ export function MedProvider({ children }) {
         })
     }
 
+    saveLists()
     console.info("auto synced")
 
   }, [user, isReady, lists])
