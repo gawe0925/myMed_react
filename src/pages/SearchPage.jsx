@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import { redirect, useNavigate } from "react-router-dom"
-// import meds from "../data/medications.json"
 import { useMed } from "../context/MedContext"
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from "../context/AuthContext"
@@ -36,7 +35,11 @@ export default function SearchPage() {
       <Navbar />
       <div className="main-container">
 
-          <input value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="Search Medication" />
+          <input value={keyword} onChange={(e) => {
+            setKeyword(e.target.value)
+            setSelectedMed(null)
+            }} placeholder="Search Medication" />
+          {/* {console.log("keyword is : ",keyword, "/????", "selected :", selectedMed)} */}
           <button onClick={() => {
             if (selectedMed === null) return toast.error("Select a medication")
             addMedToNewList(selectedMed)

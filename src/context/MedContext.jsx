@@ -27,14 +27,10 @@ export function MedProvider({ children }) {
     fetchMeds()
   }, [])
 
-
-
   // ================== firebase ==================
 
   useEffect(() => {
     async function initLists(){
-      if (!user) return
-      
       if (user) {
         const docRef = doc(db, "userLists", user.uid)
         const snapshot = await getDoc(docRef)
@@ -57,7 +53,9 @@ export function MedProvider({ children }) {
           setLists(merged)
         }
 
-      } else {
+      } 
+
+      else if (!user) {
         const localLists = JSON.parse(localStorage.getItem("lists") || "[]")
         setLists(localLists)
       }
@@ -70,8 +68,12 @@ export function MedProvider({ children }) {
   }, [user])
 
   useEffect(() =>{
-    if (!user) return
-    if (!isReady) return
+    if (!user && !isReady) return
+
+    if (!user && isReady) {
+      localStorage.setItem("lists", JSON.stringify(lists))
+      console.info("local stream")
+    }
 
     const saveLists = async () => {
         if (!user) return
@@ -79,10 +81,11 @@ export function MedProvider({ children }) {
         await setDoc(doc(db, "userLists", user.uid), {
             lists: lists
         })
+        localStorage.removeItem("lists")
+        console.info("cloud synced")
     }
 
     saveLists()
-    console.info("auto synced")
 
   }, [user, isReady, lists])
 
@@ -137,7 +140,7 @@ export function MedProvider({ children }) {
 
   return (
     <MedContext.Provider value={{ 
-      meds, lists, addList, renameList, addMedToList, addMedToNewList, removeList,
+      meds, lists, isReady, addList, renameList, addMedToList, addMedToNewList, removeList,
      }}>
       {children}
     </MedContext.Provider>

@@ -12,7 +12,7 @@ export default function ListPage() {
 
   const { 
     meds, lists, addList, renameList, addMedToList, 
-    addMedToNewList, removeList
+    addMedToNewList, removeList, isReady
    } = useMed()
 
   const { user, logout } = useAuth()
@@ -56,10 +56,10 @@ export default function ListPage() {
     setSelectedList(lists[0].id)
     }
 
-    else if (lists.length === 0) {
+    else if (lists.length === 0 && !user && isReady) {
       navigate("/search")
     }
-  }, [lists])
+  }, [lists, user])
 
   return (
     <div>
@@ -83,6 +83,8 @@ export default function ListPage() {
               setKeyword("")
             }}>
               <p>{med.med_name}</p>
+              <p>{med.use_for}</p>
+              <br/>
             </div>
           )}
 
