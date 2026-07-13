@@ -10,8 +10,8 @@ import "../css/ListPage.css"
 export default function ListPage() {
 
   const { 
-    meds, lists, addList, renameList, addMedToList, 
-    addMedToNewList, removeList, isReady
+    meds, lists, addList, renameList, addMedToList, isReadyRef,
+    addMedToNewList, removeList, isReady, removeMedFromList
    } = useMed()
 
   const { user, logout } = useAuth()
@@ -55,7 +55,7 @@ export default function ListPage() {
     setSelectedList(lists[0].id)
     }
 
-    else if (lists.length === 0 && !user && isReady) {
+    else if (lists.length === 0 && isReadyRef) {
       navigate("/search")
     }
   }, [lists, user])
@@ -151,6 +151,7 @@ export default function ListPage() {
               {list.items.map((med, index) =>
                 <div key={index}>
                   <h4>{index + 1}. {med.med_name}</h4>
+                  <button onClick={() => {removeMedFromList(list.id, med.id)}}> X </button>
                   <p>Disease: {med.keyword}</p>
                   <p>Use For: {med.use_for}</p>
                 </div>

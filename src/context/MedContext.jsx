@@ -1,4 +1,4 @@
-import { children, createContext, useContext, useEffect, useState } from "react"
+import { children, createContext, useContext, useEffect, useState, useRef } from "react"
 import { useAuth } from "./AuthContext"
 
 // firebase
@@ -13,6 +13,7 @@ export function MedProvider({ children }) {
   const { user } = useAuth()
   const [meds, setMeds] = useState([])
   const [lists, setLists] = useState([])
+  const isReadyRef = useRef(false)
   const [isReady, setIsReady] = useState(false)
 
   // ================== firebase ==================
@@ -31,6 +32,9 @@ export function MedProvider({ children }) {
 
   useEffect(() => {
     async function initLists(){
+      isReadyRef.current = false
+      setIsReady(false)
+
       if (user) {
         const docRef = doc(db, "userLists", user.uid)
         const snapshot = await getDoc(docRef)
@@ -55,11 +59,12 @@ export function MedProvider({ children }) {
 
       } 
 
-      else if (!user) {
+      else if (!user && isReady) {
         const localLists = JSON.parse(localStorage.getItem("lists") || "[]")
         setLists(localLists)
       }
 
+      isReadyRef.current = true
       setIsReady(true)
     }
 
@@ -68,7 +73,7 @@ export function MedProvider({ children }) {
   }, [user])
 
   useEffect(() =>{
-    if (!user && !isReady) return
+    if (!user || !isReadyRef.current) return
 
     if (!user && isReady) {
       localStorage.setItem("lists", JSON.stringify(lists))
@@ -124,6 +129,31 @@ export function MedProvider({ children }) {
 
   }
 
+  const removeMedFromList = (listId, medId) => {
+
+    const targetList = lists.find(list => list.id === listId)
+
+    const existed = targetList.items.some(item => medId === item.id)
+
+    if (!existed) return false
+
+    const filteredItems = targetList.items.filter(med => med.id !== medId)
+    if (filteredItems.length === 0) {
+      setLists(lists.filter(list => list.id !== targetList.id))
+    }
+    
+    else if (filteredItems.length !== 0) {
+      setLists(lists.map(list => 
+        list.id === listId
+        ? {...list, items: [...list.items.filter(med => med.id !== medId)]}
+        : list
+      ))
+    }
+
+    return true
+
+  }
+
   const addMedToNewList = (med) => {
     const newId = Date.now()
     const newList = {
@@ -140,7 +170,8 @@ export function MedProvider({ children }) {
 
   return (
     <MedContext.Provider value={{ 
-      meds, lists, isReady, addList, renameList, addMedToList, addMedToNewList, removeList,
+      meds, lists, isReady, isReadyRef, addList, renameList, addMedToList, 
+      addMedToNewList, removeList, removeMedFromList
      }}>
       {children}
     </MedContext.Provider>
