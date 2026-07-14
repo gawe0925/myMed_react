@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { redirect, useNavigate } from "react-router-dom"
 import { useMed } from "../context/MedContext"
 import { useAuth } from "../context/AuthContext"
@@ -24,6 +24,8 @@ export default function ListPage() {
   const [listNote, setListNote] = useState("")
   const [removeListId, setRemoveListId] = useState(null)
   const navigate = useNavigate()
+  const inputRef = useRef(null)
+  const textareaRef = useRef(null)
 
 
   const filtered = keyword === "" ? [] : meds.filter((med) => 
@@ -60,86 +62,132 @@ export default function ListPage() {
     }
   }, [lists, user])
 
+  useEffect(() => {
+    if (editingListId !== null) {
+      inputRef.current.focus()
+    }
+  }, [editingListId])
+
+  useEffect(() => {
+    if (noteListId !== null) {
+      textareaRef.current.focus()
+    }
+  }, [noteListId])
+
+  console.log()
+
   return (
-    <div>
+    <div className="app-shell">
       <Navbar />
 
       <div className="context-container">
         <div className="left-panel">
 
         <Toaster />
-
+          
           <input value={keyword} onChange={(e) => {
             setKeyword(e.target.value)
             setSelectedMed(null)
           }} placeholder="Search Medication" />
 
-          {keyword === "" && selectedMed === null && <p>Any Medication Name to Search</p>}
-
-          {keyword !== "" && selectedMed === null && filtered.map((med, index) =>
-            <div key={index} onClick={() => {
-              setSelectedMed(med)
-              setKeyword("")
-            }}>
-              <p>{med.med_name}</p>
-              <p>{med.use_for}</p>
-              <br/>
-            </div>
-          )}
-
-          {keyword !== "" && filtered.length === 0 && <p>No Matched Medication</p> }
-
-          {selectedMed !== null && (
-            <div>
-              <h4>{selectedMed.med_name}</h4>
-              <p>Disease: {selectedMed.keyword}</p>
-              <p>Use For: {selectedMed.use_for}</p>
-            </div>
-          )}
+          {keyword === "" && selectedMed === null && <p>Search Via Medication Name</p>}
           
-          {lists.length === 0
-          ? [] 
-          : <select onChange={(e) => setSelectedList(e.target.value)}>
-            {lists.map(list => <option key={list.id} value={list.id}>{list.name}</option>)}
-            </select>
-          }
+          <div className="med-search-results">
+            {keyword !== "" && selectedMed === null && filtered.map((med, index) =>
+              <div className="med-result-card" key={index} onClick={() => {
+                setSelectedMed(med)
+                setKeyword("")
+              }}>
+                
+                <div className="med-detail-row">
+                  <span className="med-detail-label">Medication:</span>
+                  <span className="med-detail-value">{med.med_name}</span>
+                </div>
+                <div className="med-detail-row">
+                  <span className="med-detail-label">Use For:</span>
+                  <span className="med-detail-value">{med.use_for}</span>
+                </div>
+              </div>
+            )}
 
-          <button onClick={() => {
-            handleAdd()
-            setSelectedMed(null)
-          }}>Add</button>
+            
+            {keyword !== "" && filtered.length === 0 && <p>No Matched Medication</p> }
 
-          <button onClick={() => {
-            const result = addList()
-            if (!result) return toast.error("Login to add more lists")
-          }}>Add List</button>
+            {selectedMed !== null && (
+              <div className="selected-med-card">
+                <div className="selected-med-card-right">
+                  <div className="med-detail-row">
+                    <span className="med-detail-label">Medication:</span>
+                    <span>{selectedMed.med_name}</span>
+                  </div>
+                  <div className="med-detail-row">
+                    <span className="med-detail-label">Disease:</span>
+                    <span>{selectedMed.keyword}</span>
+                  </div>
+                  <div className="med-detail-row">
+                    <span className="med-detail-label">Use For:</span>
+                    <span>{selectedMed.use_for}</span>
+                  </div>
+                </div>
+                
+                <div className="selected-med-card-left">
+                  <div className="selected-med-actions">
+                    <button className="button" onClick={() => {
+                      handleAdd()
+                      setSelectedMed(null)
+                    }}>Add to {lists.find(list => list.id === Number(selectedList))?.name}</button>
 
+                    <button className="clear-btn" onClick={() => setSelectedMed(null)}> Search Others </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <div className="list-select-row">
+            {lists.length === 0
+            ? [] 
+            : <select onChange={(e) => setSelectedList(e.target.value)}>
+              {lists.map(list => <option className="list-select-row select" key={list.id} value={list.id}>{list.name}</option>)}
+              </select>
+            }
+
+            <button className="list-select-row button" onClick={() => {
+              const result = addList()
+              if (!result) return toast.error("Login to add more lists")
+            }}>New List</button>
+        </div>
         </div>
         <div className="right-panel">
           {lists.map(list => (
-            <div key={list.id}>
+            <div className="list-card" key={list.id}>
 
-              {/* change list's name */}
-              {editingListId === list.id
-                ? <input value={newListName}
-                  onChange={(e) => setNewListName(e.target.value)}
-                  onBlur={() => {
-                    renameList(editingListId, newListName)
-                    setEditingListId(null)
-                  }}
-                />
-                : <p onClick={() => {
-                  setEditingListId(list.id)
-                  setNewListName(list.name)
-                }}>{list.name}</p>
-              }
+              <div className="list-card-header">
+                {/* change list's name */}
+                {editingListId === list.id
+                  ? <input ref={inputRef} value={newListName}
+                    onChange={(e) => setNewListName(e.target.value)}
+                    onBlur={() => {
+                      renameList(editingListId, newListName)
+                      setEditingListId(null)
+                    }}
+                  />
+                  : <p onClick={() => {
+                    setEditingListId(list.id)
+                    setNewListName(list.name)
+                  }}>{list.name}</p>
+                }
 
-              {/* remove list */}
-              <button onClick={() => removeList(Number(list.id))}> X </button>
+                {/* remove list */}
+                <button className="list-card-remove-btn" 
+                onClick={() => removeList(Number(list.id))}> X </button>
 
+              </div>
+              
+              <div className="list-card-note">
               {/* Note section */}
               {noteListId === list.id
-              ? <textarea value={listNote}
+              ? <textarea ref={textareaRef} value={listNote}
                 onChange={(e) => setListNote(e.target.value)}
                 onBlur={() => setNoteListId(null)}
                 />
@@ -147,15 +195,20 @@ export default function ListPage() {
                 setNoteListId(list.id)
               }}>Note</button>
               }
-
-              {list.items.map((med, index) =>
-                <div key={index}>
-                  <h4>{index + 1}. {med.med_name}</h4>
-                  <button onClick={() => {removeMedFromList(list.id, med.id)}}> X </button>
-                  <p>Disease: {med.keyword}</p>
-                  <p>Use For: {med.use_for}</p>
-                </div>
-              )}
+              </div>
+              <div className="list-items-container">
+                {list.items.map((med, index) =>
+                  <div className="med-item" key={index}>
+                    <div className="med-item-header">
+                      <h4>{index + 1}. {med.med_name}</h4>
+                      <button className="med-item-remove-btn" 
+                      onClick={() => {removeMedFromList(list.id, med.id)}}> X </button>
+                    </div>
+                    <p>Disease: {med.keyword}</p>
+                    <p>Use For: {med.use_for}</p>
+                  </div>
+                )}
+              </div>
 
             </div>
 

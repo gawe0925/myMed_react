@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* 整個網頁層級：徹底禁止捲動 */
+}
+
+#root { /* 或者你的 React app 掛載的那個 div id，通常是 root */
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 整個 App 撐滿螢幕高度 */
+  overflow: hidden;
+}
+
+.context-container {
+  display: flex;
+  flex: 1; /* 關鍵：不管 Navbar 實際多高，這裡自動吃掉「剩餘的」所有空間 */
+  min-height: 0; /* 跟之前教你的 flexbox 坑一樣，這裡也需要，才能讓內部捲動生效 */
+  overflow: hidden;
+  background-color: #f8f9fa;
+}
