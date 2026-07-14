@@ -1,20 +1,36 @@
-import { BrowserRouter, Routes, Route  } from "react-router-dom";
+import { BrowserRouter, Routes, Route  } from "react-router-dom"
+import { AuthProvider } from "./context/AuthContext"
 import { MedProvider } from "./context/MedContext"
-import LoginPage from "./pages/LoginPage";
-import MainPage from "./pages/MainPage";
-import SearchPage from "./pages/SearchPage";
+import LoginPage from "./pages/LoginPage"
+import ListPage from "./pages/ListPage"
+import SearchPage from "./pages/SearchPage"
+import RegisterPage from "./pages/RegisterPage"
+import AuthGate from "./routes/AuthGate"
 
 
 export default function App() {
   return (
-    <MedProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/app" element={<MainPage />} />
-        </Routes>
-      </BrowserRouter>
-    </MedProvider>
+    <AuthProvider>
+      <MedProvider>
+        <AuthGate>
+          <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={
+                    <LoginPage />
+                } />
+                <Route path="/register" element={
+                    <RegisterPage />
+                } />
+                <Route path="/search" element={
+                    <SearchPage />
+                } />
+                <Route path="/lists" element={
+                    <ListPage />
+                } />
+            </Routes>    
+          </BrowserRouter>
+        </AuthGate>
+      </MedProvider>
+    </AuthProvider>
   )
 }

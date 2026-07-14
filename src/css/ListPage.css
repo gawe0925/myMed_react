@@ -1,0 +1,384 @@
+/* ListPage.css */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* 整個網頁層級：徹底禁止捲動 */
+}
+
+#root { /* 或者你的 React app 掛載的那個 div id，通常是 root */
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 整個 App 撐滿螢幕高度 */
+  overflow: hidden;
+}
+
+.context-container {
+  display: flex;
+  flex: 1; /* 關鍵：不管 Navbar 實際多高，這裡自動吃掉「剩餘的」所有空間 */
+  min-height: 0; /* 跟之前教你的 flexbox 坑一樣，這裡也需要，才能讓內部捲動生效 */
+  overflow: hidden;
+  background-color: #f8f9fa;
+}
+
+/* ========== 整體外層容器 ========== */
+.context-container {
+  display: flex;
+  height: calc(100vh - 60px); /* 扣掉 Navbar 高度，假設 Navbar 是 60px，之後可依實際調整 */
+  overflow: hidden; /* 讓左右兩個面板各自控制自己的捲動，不要整頁一起滾 */
+}
+
+/* ========== 左邊：操作區（搜尋、選清單、加入） ========== */
+.left-panel {
+  width: 35%;
+  min-width: 280px;
+  padding: 24px;
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden; /* 改掉原本的 auto，外層本身不捲動 */
+  height: 60%; /* 讓它撐滿 .context-container 給的高度 */
+}
+
+.left-panel input,
+.left-panel select,
+.left-panel textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.left-panel button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: #e9ecef;
+}
+
+/* 外層容器：負責排列多張卡片、控制間距 */
+.med-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 0;      /* 不要主動去搶剩餘空間 */
+  flex-shrink: 1;     /* 空間不夠時可以被壓縮 */
+  flex-basis: auto;   /* 高度先照內容本身決定 */
+  max-height: 400px;  /* 內容超過這個高度時，才開始捲動，你可以依實際排版調整這個數字 */
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.med-search-result:hover {
+  background: #f0f0f0;
+}
+
+/* 每一筆搜尋結果，獨立的卡片 */
+.med-result-card {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.med-result-card:hover {
+  background: #f8f9fa ;
+  border-color: #212529;
+}
+
+.med-result-name {
+  margin: 0 0 4px 0;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1F2D2C;
+}
+
+.med-result-use {
+  margin: 0;
+  font-size: 13px;
+  color: #6E6E73;
+}
+
+.med-detail-row {
+  display: grid;
+  grid-template-columns: 80px 1fr; 
+  gap: 8px;
+  margin-bottom: 4px;
+  margin-left: 30px;
+}
+
+.med-detail-label {
+  color: #6E6E73;
+  font-size: 14px;
+}
+
+.med-detail-value {
+  color: #1F2D2C;
+  font-size: 14px;
+}
+
+.selected-med-card {
+  display: flex;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background: #fafafa;
+  margin-top: 8px;
+}
+
+.selected-med-card-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.selected-med-card-left {
+  flex: 0 0 auto;
+}
+
+.selected-med-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.selected-med-actions button {
+  flex: 0 0 auto;
+  height: 35px;
+  transition: background 0.2s ease;
+}
+
+.selected-med-actions button:hover {
+  background-color: #cad2c5;
+}
+
+.selected-med-actions .clear-btn {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  height: 35px;
+  background-color: #ffe5ec;
+  transition: background 0.2s ease;
+}
+
+.selected-med-actions .clear-btn:hover {
+  background-color: #ffc2d1;
+}
+
+/* 下拉式選單區塊 */
+.list-select-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.list-select-row select {
+  flex: 1; /* 下拉選單佔滿剩餘空間 */
+  min-width: 0;
+}
+
+.list-select-row button {
+  flex: 0 0 auto; /* 按鈕維持自己的寬度，不被撐大 */
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.list-select-row button:hover {
+  background: #cad2c5 ;
+}
+
+
+/* ========== 右邊：清單卡片區（單欄、往下堆疊、可滾動） ========== */
+.right-panel {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 每張清單卡片之間的垂直間距 */
+  overflow-y: auto; /* 卡片超過畫面高度時，右邊自己捲動 */
+}
+
+.right-panel button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* 單張清單卡片 */
+.list-card {
+  width: 90%;
+  padding: 20px;
+  border-radius: 16px; /* iOS 風格通常圓角較大 */
+  border: 1px solid #ddd;
+  background: #fff; /* 骨架階段先用純白，之後換成半透明玻璃 */
+}
+
+/* ========== list-card-header 重新設計:改成清楚的左右分區,而不是三個元素平均分散 ========== */
+.list-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+/* Header：名稱 + 移除按鈕，左右分佈 */
+.list-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.list-card-header p,
+.list-card-header input {
+  flex: 1;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.list-card-remove-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Note 區塊：獨立一行，跟 header 之間有間距分隔 */
+.list-card-note {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.list-card-note button {
+  border: none;
+  background: #f0f0f0;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.list-card-note textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box; /* 避免 padding 讓寬度超出容器 */
+  resize: vertical;
+}
+
+/* Items 容器：第二層卡片感，包住所有藥品項目 */
+.list-items-container {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f7f7f7; /* 淺灰底，跟外層白色卡片做出層次區隔 */
+  text-align: left;
+}
+
+.med-item {
+  padding: 10px 0;
+  border-top: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.med-item:first-child {
+  border-top: none;
+}
+
+.med-item-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.med-item-header h4 {
+  flex: 1;
+  margin: 0;
+  text-align: left;
+  font-size: 15px;
+}
+
+.med-item-remove-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.med-item p {
+  margin: 2px 0;
+  font-size: 13px;
+  color: #555;
+  text-align: left;
+}
+
+/* 響應式 */
+@media (max-width: 768px) {
+  .context-container {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .left-panel,
+  .right-panel {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .left-panel {
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+    max-height: 50vh;
+  }
+
+  .right-panel {
+    max-height: none;
+  }
+
+  .list-card {
+    width: 100%; /* 手機上卡片佔滿寬度，不要留 90% 那種留白 */
+  }
+
+  .list-card,
+  .med-item,
+  .left-panel {
+    overflow-wrap: break-word;   /* 太長的單字會自動斷行,而不是撐開容器 */
+  }
+
+  html, body {
+  overflow-x: hidden;   /* 最後一道防線:即使有東西溢出,也不會出現橫向捲軸 */
+  max-width: 100%;
+  }
+}
