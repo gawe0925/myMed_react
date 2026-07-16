@@ -101,11 +101,11 @@ export default function ListPage() {
                 
                 <div className="med-detail-row">
                   <span className="med-detail-label">Medication:</span>
-                  <span className="med-detail-value">{med.med_name}</span>
+                  <span className="med-result-name">{med.med_name}</span>
                 </div>
                 <div className="med-detail-row">
                   <span className="med-detail-label">Use For:</span>
-                  <span className="med-detail-value">{med.use_for}</span>
+                  <span className="med-result-detail">{med.use_for}</span>
                 </div>
               </div>
             )}
@@ -115,22 +115,22 @@ export default function ListPage() {
 
             {selectedMed !== null && (
               <div className="selected-med-card">
-                <div className="selected-med-card-right">
+                <div className="selected-med-card-left">
                   <div className="med-detail-row">
                     <span className="med-detail-label">Medication:</span>
-                    <span>{selectedMed.med_name}</span>
+                    <span className="med-result-name">{selectedMed.med_name}</span>
                   </div>
                   <div className="med-detail-row">
                     <span className="med-detail-label">Disease:</span>
-                    <span>{selectedMed.keyword}</span>
+                    <span className="med-result-detail">{selectedMed.keyword}</span>
                   </div>
                   <div className="med-detail-row">
                     <span className="med-detail-label">Use For:</span>
-                    <span>{selectedMed.use_for}</span>
+                    <span className="med-result-detail">{selectedMed.use_for}</span>
                   </div>
                 </div>
                 
-                <div className="selected-med-card-left">
+                <div className="selected-med-card-right">
                   <div className="selected-med-actions">
                     <button className="button" onClick={() => {
                       handleAdd()
@@ -147,12 +147,12 @@ export default function ListPage() {
           <div className="list-select-row">
             {lists.length === 0
             ? [] 
-            : <select onChange={(e) => setSelectedList(e.target.value)}>
-              {lists.map(list => <option className="list-select-row select" key={list.id} value={list.id}>{list.name}</option>)}
+            : <select className="list-select" onChange={(e) => setSelectedList(e.target.value)}>
+              {lists.map(list => <option key={list.id} value={list.id}>{list.name}</option>)}
               </select>
             }
 
-            <button className="list-select-row button" onClick={() => {
+            <button className="list-add-btn" onClick={() => {
               const result = addList()
               if (!result) return toast.error("Login to add more lists")
             }}>New List</button>
@@ -165,22 +165,35 @@ export default function ListPage() {
               <div className="list-card-header">
                 {/* change list's name */}
                 {editingListId === list.id
-                  ? <input ref={inputRef} value={newListName}
-                    onChange={(e) => setNewListName(e.target.value)}
-                    onBlur={() => {
-                      renameList(editingListId, newListName)
-                      setEditingListId(null)
-                    }}
-                  />
-                  : <p onClick={() => {
-                    setEditingListId(list.id)
-                    setNewListName(list.name)
-                  }}>{list.name}</p>
+                  ? <input 
+                      className="list-name-input"
+                      placeholder="Name Your List! Such as: Daily Med"
+                      ref={inputRef} 
+                      value={newListName}
+                      onChange={(e) => setNewListName(e.target.value)}
+                      onBlur={() => {
+                        if (newListName === "") return toast.error("List name is required")
+                        
+                        else if (newListName.length > 20) return toast.error("Name cannot exceed 20 characters")
+                        
+                        else{
+                          renameList(editingListId, newListName)
+                          setEditingListId(null)
+                        }
+                      }}
+                    />
+                  : <p className="list-name" onClick={() => {
+                      setEditingListId(list.id)
+                      setNewListName(list.name)
+                    }}>{list.name}</p>
                 }
 
                 {/* remove list */}
                 <button className="list-card-remove-btn" 
-                onClick={() => removeList(Number(list.id))}> X </button>
+                onClick={() => removeList(Number(list.id))}>
+                  <span className="btn-text">REMOVE</span>
+                  <span className="btn-icon">×</span>
+                </button>
 
               </div>
               
@@ -191,7 +204,7 @@ export default function ListPage() {
                 onChange={(e) => setListNote(e.target.value)}
                 onBlur={() => setNoteListId(null)}
                 />
-              : <button onClick={() => {
+              : <button className="note-btn" onClick={() => {
                 setNoteListId(list.id)
               }}>Note</button>
               }
@@ -202,7 +215,9 @@ export default function ListPage() {
                     <div className="med-item-header">
                       <h4>{index + 1}. {med.med_name}</h4>
                       <button className="med-item-remove-btn" 
-                      onClick={() => {removeMedFromList(list.id, med.id)}}> X </button>
+                      onClick={() => {removeMedFromList(list.id, med.id)}}>
+                        <span className="btn-icon">×</span>
+                      </button>
                     </div>
                     <p>Disease: {med.keyword}</p>
                     <p>Use For: {med.use_for}</p>
