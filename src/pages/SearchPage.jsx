@@ -35,41 +35,68 @@ export default function SearchPage() {
       <Navbar />
       <div className="main-container">
 
-          <input value={keyword} onChange={(e) => {
-            setKeyword(e.target.value)
-            setSelectedMed(null)
-            }} placeholder="Search Medication" />
-          {/* {console.log("keyword is : ",keyword, "/????", "selected :", selectedMed)} */}
-          <button onClick={() => {
-            if (selectedMed === null) return toast.error("Select a medication")
-            addMedToNewList(selectedMed)
-            navigate("/lists")
-          }}>Add</button>
+        <input value={keyword} onChange={(e) => {
+          setKeyword(e.target.value)
+          setSelectedMed(null)
+          }} placeholder="Search Medication" />
 
-          {keyword === "" && <p>Any Medication Name to Search</p> }
+        {keyword === "" && selectedMed === null && <p>Any Medication Name to Search</p> }
 
-          {keyword !== "" && filtered.length === 0 && <p>No Matched Medication</p> }
+        {keyword !== "" && filtered.length === 0 && <p>No Matched Medication</p> }
 
-          {keyword !== "" && selectedMed === null && filtered.map((med, index) => 
-            <div key={index} onClick={() => {
+        <div className="med-search-results">
+          {keyword !== "" && selectedMed === null && filtered.map((med, index) =>
+            <div className="med-result-card" key={index} onClick={() => {
               setSelectedMed(med)
               setKeyword("")
             }}>
-              <h4>{med.med_name}</h4>
-              <p>Medication For: {med.keyword}</p>
+              
+            <div className="med-detail-row">
+              <span className="med-detail-label">Medication:</span>
+              <span className="med-detail-value">{med.med_name}</span>
             </div>
+            <div className="med-detail-row">
+              <span className="med-detail-label">Use For:</span>
+              <span className="med-detail-value">{med.use_for}</span>
+            </div>
+          </div>
           )}
+
+            
+          {keyword !== "" && filtered.length === 0 && <p>No Matched Medication</p> }
 
           {selectedMed !== null && (
-            <div>
-              <h4>{selectedMed.med_name}</h4>
-              <p>Disease: {selectedMed.keyword}</p>
-              <p>Use For: {selectedMed.use_for}</p>
+            <div className="selected-med-card">
+              <div className="selected-med-card-left">
+                <div className="med-detail-row">
+                  <span className="med-detail-label">Medication:</span>
+                  <span>{selectedMed.med_name}</span>
+                </div>
+                <div className="med-detail-row">
+                  <span className="med-detail-label">Disease:</span>
+                  <span>{selectedMed.keyword}</span>
+                </div>
+                <div className="med-detail-row">
+                  <span className="med-detail-label">Use For:</span>
+                  <span>{selectedMed.use_for}</span>
+                </div>
+              </div>
+              
+              <div className="selected-med-card-right">
+                <div className="selected-med-actions">
+                  <button className="button" onClick={() => {
+                    if (selectedMed === null) return toast.error("Select a medication")
+                    addMedToNewList(selectedMed)
+                    navigate("/lists")
+                  }}>Add to list</button>
+
+                  <button className="clear-btn" onClick={() => setSelectedMed(null)}> Search Others </button>
+                </div>
+              </div>
             </div>
           )}
-
+        </div>
       </div>
     </div>
   )
-
 }
