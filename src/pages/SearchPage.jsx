@@ -4,6 +4,7 @@ import { useMed } from "../context/MedContext"
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from "../context/AuthContext"
 import Navbar from "../components/Navbar"
+import "../css/SearchPage.css"
 
 export default function SearchPage() {
 
@@ -28,11 +29,12 @@ export default function SearchPage() {
   }, [lists])
 
   return (
-    <div>
+    <div className="app-shell">
 
       <Toaster />
 
       <Navbar />
+
       <div className="main-container">
 
         <input value={keyword} onChange={(e) => {
@@ -62,8 +64,6 @@ export default function SearchPage() {
           </div>
           )}
 
-            
-          {keyword !== "" && filtered.length === 0 && <p>No Matched Medication</p> }
 
           {selectedMed !== null && (
             <div className="selected-med-card">

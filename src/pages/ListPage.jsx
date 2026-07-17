@@ -28,8 +28,11 @@ export default function ListPage() {
   const textareaRef = useRef(null)
 
 
-  const filtered = keyword === "" ? [] : meds.filter((med) => 
-    med.med_name?.toLowerCase().includes(keyword.toLowerCase()))
+const filtered = keyword.trim() === "" 
+    ? [] 
+    : meds.filter((med) => 
+      med.med_name?.toLowerCase().trim().startsWith(keyword.toLowerCase().trim())
+    );
 
   const handleAdd = () => {
     if (selectedMed === null) return toast.error("Select a medication")
@@ -84,13 +87,27 @@ export default function ListPage() {
         <div className="left-panel">
 
         <Toaster />
+
+          <div className="list-select-row">
+            {lists.length === 0
+            ? [] 
+            : <select className="list-select" onChange={(e) => setSelectedList(e.target.value)}>
+              {lists.map(list => <option key={list.id} value={list.id}>{list.name}</option>)}
+              </select>
+            }
+
+            <button className="list-add-btn" onClick={() => {
+              const result = addList()
+              if (!result) return toast.error("Login to add more lists")
+            }}>New List</button>
+          </div>
           
           <input value={keyword} onChange={(e) => {
             setKeyword(e.target.value)
             setSelectedMed(null)
           }} placeholder="Search Medication" />
 
-          {keyword === "" && selectedMed === null && <p>Search Via Medication Name</p>}
+          {keyword === "" && selectedMed === null && <p className="search-prompt">Search Via Medication Name</p>}
           
           <div className="med-search-results">
             {keyword !== "" && selectedMed === null && filtered.map((med, index) =>
@@ -104,8 +121,8 @@ export default function ListPage() {
                   <span className="med-result-name">{med.med_name}</span>
                 </div>
                 <div className="med-detail-row">
-                  <span className="med-detail-label">Use For:</span>
-                  <span className="med-result-detail">{med.use_for}</span>
+                  <span className="med-detail-label">Indication:</span>
+                  <span className="med-result-detail">{med.keyword}</span>
                 </div>
               </div>
             )}
@@ -121,7 +138,7 @@ export default function ListPage() {
                     <span className="med-result-name">{selectedMed.med_name}</span>
                   </div>
                   <div className="med-detail-row">
-                    <span className="med-detail-label">Disease:</span>
+                    <span className="med-detail-label">Indication:</span>
                     <span className="med-result-detail">{selectedMed.keyword}</span>
                   </div>
                   <div className="med-detail-row">
@@ -143,20 +160,6 @@ export default function ListPage() {
               </div>
             )}
           </div>
-          
-          <div className="list-select-row">
-            {lists.length === 0
-            ? [] 
-            : <select className="list-select" onChange={(e) => setSelectedList(e.target.value)}>
-              {lists.map(list => <option key={list.id} value={list.id}>{list.name}</option>)}
-              </select>
-            }
-
-            <button className="list-add-btn" onClick={() => {
-              const result = addList()
-              if (!result) return toast.error("Login to add more lists")
-            }}>New List</button>
-        </div>
         </div>
         <div className="right-panel">
           {lists.map(list => (
@@ -200,7 +203,7 @@ export default function ListPage() {
               <div className="list-card-note">
               {/* Note section */}
               {noteListId === list.id
-              ? <textarea ref={textareaRef} value={listNote}
+              ? <textarea className="note-textarea" ref={textareaRef} value={listNote}
                 onChange={(e) => setListNote(e.target.value)}
                 onBlur={() => setNoteListId(null)}
                 />
@@ -212,15 +215,28 @@ export default function ListPage() {
               <div className="list-items-container">
                 {list.items.map((med, index) =>
                   <div className="med-item" key={index}>
-                    <div className="med-item-header">
-                      <h4>{index + 1}. {med.med_name}</h4>
-                      <button className="med-item-remove-btn" 
-                      onClick={() => {removeMedFromList(list.id, med.id)}}>
-                        <span className="btn-icon">×</span>
-                      </button>
+                    <div className="list-items-left">{index + 1}.</div>
+                    <div className="list-items-right">
+                      <div className="med-item-header">
+                        {/* <h4>{index + 1}. {med.med_name}</h4> */}
+                        <div className="med-detail-row">
+                          <span className="med-detail-label">Medication:</span>
+                          <span className="med-result-name">{med.med_name}</span>
+                        </div>
+                        <button className="med-item-remove-btn" 
+                        onClick={() => {removeMedFromList(list.id, med.id)}}>
+                          <span className="btn-icon">×</span>
+                        </button>
+                      </div>
+                      <div className="med-detail-row">
+                        <span className="med-detail-label">Indication:</span>
+                        <span className="med-result-detail">{med.keyword}</span>
+                      </div>
+                      <div className="med-detail-row">
+                        <span className="med-detail-label">Use For:</span>
+                        <span className="med-result-detail">{med.use_for}</span>
+                      </div>
                     </div>
-                    <p>Disease: {med.keyword}</p>
-                    <p>Use For: {med.use_for}</p>
                   </div>
                 )}
               </div>
