@@ -13,7 +13,7 @@ export default function App() {
     <AuthProvider>
       <MedProvider>
         <AuthGate>
-          <BrowserRouter>
+          <BrowserRouter basename="/myMed_react">
             <Routes>
                 <Route path="/login" element={
                     <LoginPage />
