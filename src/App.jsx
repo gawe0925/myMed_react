@@ -15,6 +15,8 @@ export default function App() {
         <AuthGate>
           <BrowserRouter>
             <Routes>
+                <Route path="/" element={<Navigate to="/search" replace />} />
+
                 <Route path="/login" element={
                     <LoginPage />
                 } />
