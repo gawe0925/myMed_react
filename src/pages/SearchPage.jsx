@@ -4,7 +4,7 @@ import { useMed } from "../context/MedContext"
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from "../context/AuthContext"
 import Navbar from "../components/Navbar"
-import './index.css'
+import '../index.css'
 
 export default function SearchPage() {
 
