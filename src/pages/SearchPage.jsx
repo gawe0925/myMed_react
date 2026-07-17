@@ -30,12 +30,12 @@ export default function SearchPage() {
 
   return (
     /* app-shell: 滿版、淺灰色優雅背景 */
-    <div className="min-h-screen w-full bg-gray-50 flex flex-col pb-10">
+    <div className="min-h-screen w-full bg-gray-50 flex flex-col pt-20 pb-10 px-4 md:px-6">
       <Toaster />
       <Navbar />
 
       {/* main-container: 固定寬度,不受內容影響 */}
-      <div className="mx-auto mt-8 w-full max-w-4xl h-[560px] rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col gap-5">
+      <div className="mx-auto w-full max-w-4xl h-[560px] rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col gap-5 overflow-y-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         
         {/* 搜尋輸入框 */}
         <input 
@@ -84,8 +84,8 @@ export default function SearchPage() {
                     </span>
                   </div>
                   <div className="flex text-sm items-start min-w-0"> {/* 新增 min-w-0 */}
-                    <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-gray-400 pt-0.5">Use For:</span>
-                    <span className="text-gray-600 min-w-0 break-words">{med.use_for}</span>
+                    <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-gray-400 pt-0.5">Indication:</span>
+                    <span className="text-gray-600 min-w-0 break-words">{med.keyword}</span>
                   </div>
                 </div>
               ))}
@@ -103,7 +103,7 @@ export default function SearchPage() {
                   <span className="font-bold text-gray-800 text-lg min-w-0 break-words">{selectedMed.med_name}</span>
                 </div>
                 <div className="flex text-sm items-start min-w-0">
-                  <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-blue-400/80 pt-0.5">Disease:</span>
+                  <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-blue-400/80 pt-0.5">Indication:</span>
                   <span className="text-gray-700 font-medium min-w-0 break-words">{selectedMed.keyword}</span>
                 </div>
                 <div className="flex text-sm items-start min-w-0">

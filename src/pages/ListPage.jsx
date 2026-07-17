@@ -80,173 +80,175 @@ const filtered = keyword.trim() === ""
   console.log()
 
   return (
-    <div className={styles.appShell}>
-      <Navbar />
+    <div className={styles.pageWrapper}>
+      <div className={styles.appShell}>
+        <Navbar />
 
-      <div className={styles.contextContainer}>
-        <div className={styles.leftPanel}>
+        <div className={styles.contextContainer}>
+          <div className={styles.leftPanel}>
 
-          <Toaster />
+            <Toaster />
 
-          <div className={styles.listSelectRow}>
-            {lists.length === 0
-              ? []
-              : <select className={styles.listSelect} onChange={(e) => setSelectedList(e.target.value)}>
-                  {lists.map(list => <option key={list.id} value={list.id}>{list.name}</option>)}
-                </select>
-            }
+            <div className={styles.listSelectRow}>
+              {lists.length === 0
+                ? []
+                : <select className={styles.listSelect} onChange={(e) => setSelectedList(e.target.value)}>
+                    {lists.map(list => <option key={list.id} value={list.id}>{list.name}</option>)}
+                  </select>
+              }
 
-            <button className={styles.listAddBtn} onClick={() => {
-              const result = addList()
-              if (!result) return toast.error("Login to add more lists")
-            }}>New List</button>
-          </div>
+              <button className={styles.listAddBtn} onClick={() => {
+                const result = addList()
+                if (!result) return toast.error("Login to add more lists")
+              }}>New List</button>
+            </div>
 
-          <input
-            className={styles.textInput}
-            value={keyword}
-            onChange={(e) => {
-              setKeyword(e.target.value)
-              setSelectedMed(null)
-            }}
-            placeholder="Search Medication"
-          />
+            <input
+              className={styles.textInput}
+              value={keyword}
+              onChange={(e) => {
+                setKeyword(e.target.value)
+                setSelectedMed(null)
+              }}
+              placeholder="Search Medication"
+            />
 
-          {keyword === "" && selectedMed === null && (
-            <p className={styles.searchPrompt}>Search Via Medication Name</p>
-          )}
-
-          <div className={styles.medSearchResults}>
-            {keyword !== "" && selectedMed === null && filtered.map((med, index) =>
-              <div className={styles.medResultCard} key={index} onClick={() => {
-                setSelectedMed(med)
-                setKeyword("")
-              }}>
-
-                <div className={styles.medDetailRow}>
-                  <span className={styles.medDetailLabel}>Medication:</span>
-                  <span className={styles.medResultName}>{med.med_name}</span>
-                </div>
-                <div className={styles.medDetailRow}>
-                  <span className={styles.medDetailLabel}>Indication:</span>
-                  <span className={styles.medResultDetail}>{med.keyword}</span>
-                </div>
-              </div>
+            {keyword === "" && selectedMed === null && (
+              <p className={styles.searchPrompt}>Search Via Medication Name</p>
             )}
 
-            {keyword !== "" && filtered.length === 0 && <p>No Matched Medication</p>}
+            <div className={styles.medSearchResults}>
+              {keyword !== "" && selectedMed === null && filtered.map((med, index) =>
+                <div className={styles.medResultCard} key={index} onClick={() => {
+                  setSelectedMed(med)
+                  setKeyword("")
+                }}>
 
-            {selectedMed !== null && (
-              <div className={styles.selectedMedCard}>
-                <div className="selected-med-card-left">
                   <div className={styles.medDetailRow}>
                     <span className={styles.medDetailLabel}>Medication:</span>
-                    <span className={styles.medResultName}>{selectedMed.med_name}</span>
+                    <span className={styles.medResultName}>{med.med_name}</span>
                   </div>
                   <div className={styles.medDetailRow}>
                     <span className={styles.medDetailLabel}>Indication:</span>
-                    <span className={styles.medResultDetail}>{selectedMed.keyword}</span>
-                  </div>
-                  <div className={styles.medDetailRow}>
-                    <span className={styles.medDetailLabel}>Use For:</span>
-                    <span className={styles.medResultDetail}>{selectedMed.use_for}</span>
+                    <span className={styles.medResultDetail}>{med.keyword}</span>
                   </div>
                 </div>
+              )}
 
-                <div className="selected-med-card-right">
-                  <div className={styles.selectedMedActions}>
-                    <button className={styles.button} onClick={() => {
-                      handleAdd()
-                      setSelectedMed(null)
-                    }}>Add to {lists.find(list => list.id === Number(selectedList))?.name}</button>
+              {keyword !== "" && filtered.length === 0 && <p>No Matched Medication</p>}
 
-                    <button className={styles.clearBtn} onClick={() => setSelectedMed(null)}> Search Others </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={styles.rightPanel}>
-          {lists.map(list => (
-            <div className={styles.listCard} key={list.id}>
-
-              <div className={styles.listCardHeader}>
-                {editingListId === list.id
-                  ? <input
-                      className={styles.listNameInput}
-                      placeholder="Name Your List! Such as: Daily Med"
-                      ref={inputRef}
-                      value={newListName}
-                      onChange={(e) => setNewListName(e.target.value)}
-                      onBlur={() => {
-                        if (newListName === "") return toast.error("List name is required")
-                        else if (newListName.length > 20) return toast.error("Name cannot exceed 20 characters")
-                        else {
-                          renameList(editingListId, newListName)
-                          setEditingListId(null)
-                        }
-                      }}
-                    />
-                  : <p className={styles.listName} onClick={() => {
-                      setEditingListId(list.id)
-                      setNewListName(list.name)
-                    }}>{list.name}</p>
-                }
-
-                <button className={styles.listCardRemoveBtn}
-                  onClick={() => removeList(Number(list.id))}>
-                  <span className={styles.btnText}>REMOVE</span>
-                  <span className={styles.btnIcon}>×</span>
-                </button>
-
-              </div>
-
-              <div className={styles.listCardNote}>
-                {noteListId === list.id
-                  ? <textarea
-                      className={styles.noteTextarea}
-                      ref={textareaRef}
-                      value={listNote}
-                      onChange={(e) => setListNote(e.target.value)}
-                      onBlur={() => setNoteListId(null)}
-                    />
-                  : <button className={styles.noteBtn} onClick={() => {
-                      setNoteListId(list.id)
-                    }}>Note</button>
-                }
-              </div>
-              <div className={styles.listItemsContainer}>
-                {list.items.map((med, index) =>
-                  <div className={styles.medItem} key={index}>
-                    <div className={styles.listItemsLeft}>{index + 1}.</div>
-                    <div className={styles.listItemsRight}>
-                      <div className={styles.medItemHeader}>
-                        <div className={styles.medDetailRow}>
-                          <span className={styles.medDetailLabel}>Medication:</span>
-                          <span className={styles.medResultName}>{med.med_name}</span>
-                        </div>
-                        <button className={styles.medItemRemoveBtn}
-                          onClick={() => { removeMedFromList(list.id, med.id) }}>
-                          <span className={styles.btnIcon}>×</span>
-                        </button>
-                      </div>
-                      <div className={styles.medDetailRow}>
-                        <span className={styles.medDetailLabel}>Indication:</span>
-                        <span className={styles.medResultDetail}>{med.keyword}</span>
-                      </div>
-                      <div className={styles.medDetailRow}>
-                        <span className={styles.medDetailLabel}>Use For:</span>
-                        <span className={styles.medResultDetail}>{med.use_for}</span>
-                      </div>
+              {selectedMed !== null && (
+                <div className={styles.selectedMedCard}>
+                  <div className="selected-med-card-left">
+                    <div className={styles.medDetailRow}>
+                      <span className={styles.medDetailLabel}>Medication:</span>
+                      <span className={styles.medResultName}>{selectedMed.med_name}</span>
+                    </div>
+                    <div className={styles.medDetailRow}>
+                      <span className={styles.medDetailLabel}>Indication:</span>
+                      <span className={styles.medResultDetail}>{selectedMed.keyword}</span>
+                    </div>
+                    <div className={styles.medDetailRow}>
+                      <span className={styles.medDetailLabel}>Use For:</span>
+                      <span className={styles.medResultDetail}>{selectedMed.use_for}</span>
                     </div>
                   </div>
-                )}
+
+                  <div className="selected-med-card-right">
+                    <div className={styles.selectedMedActions}>
+                      <button className={styles.button} onClick={() => {
+                        handleAdd()
+                        setSelectedMed(null)
+                      }}>Add to {lists.find(list => list.id === Number(selectedList))?.name}</button>
+
+                      <button className={styles.clearBtn} onClick={() => setSelectedMed(null)}> Search Others </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className={styles.rightPanel}>
+            {lists.map(list => (
+              <div className={styles.listCard} key={list.id}>
+
+                <div className={styles.listCardHeader}>
+                  {editingListId === list.id
+                    ? <input
+                        className={styles.listNameInput}
+                        placeholder="Name Your List! Such as: Daily Med"
+                        ref={inputRef}
+                        value={newListName}
+                        onChange={(e) => setNewListName(e.target.value)}
+                        onBlur={() => {
+                          if (newListName === "") return toast.error("List name is required")
+                          else if (newListName.length > 20) return toast.error("Name cannot exceed 20 characters")
+                          else {
+                            renameList(editingListId, newListName)
+                            setEditingListId(null)
+                          }
+                        }}
+                      />
+                    : <p className={styles.listName} onClick={() => {
+                        setEditingListId(list.id)
+                        setNewListName(list.name)
+                      }}>{list.name}</p>
+                  }
+
+                  <button className={styles.listCardRemoveBtn}
+                    onClick={() => removeList(Number(list.id))}>
+                    <span className={styles.btnText}>REMOVE</span>
+                    <span className={styles.btnIcon}>×</span>
+                  </button>
+
+                </div>
+
+                <div className={styles.listCardNote}>
+                  {noteListId === list.id
+                    ? <textarea
+                        className={styles.noteTextarea}
+                        ref={textareaRef}
+                        value={listNote}
+                        onChange={(e) => setListNote(e.target.value)}
+                        onBlur={() => setNoteListId(null)}
+                      />
+                    : <button className={styles.noteBtn} onClick={() => {
+                        setNoteListId(list.id)
+                      }}>Note</button>
+                  }
+                </div>
+                <div className={styles.listItemsContainer}>
+                  {list.items.map((med, index) =>
+                    <div className={styles.medItem} key={index}>
+                      <div className={styles.listItemsLeft}>{index + 1}.</div>
+                      <div className={styles.listItemsRight}>
+                        <div className={styles.medItemHeader}>
+                          <div className={styles.medDetailRow}>
+                            <span className={styles.medDetailLabel}>Medication:</span>
+                            <span className={styles.medResultName}>{med.med_name}</span>
+                          </div>
+                          <button className={styles.medItemRemoveBtn}
+                            onClick={() => { removeMedFromList(list.id, med.id) }}>
+                            <span className={styles.btnIcon}>×</span>
+                          </button>
+                        </div>
+                        <div className={styles.medDetailRow}>
+                          <span className={styles.medDetailLabel}>Indication:</span>
+                          <span className={styles.medResultDetail}>{med.keyword}</span>
+                        </div>
+                        <div className={styles.medDetailRow}>
+                          <span className={styles.medDetailLabel}>Use For:</span>
+                          <span className={styles.medResultDetail}>{med.use_for}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
               </div>
 
-            </div>
-
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
