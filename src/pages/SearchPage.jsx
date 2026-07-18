@@ -70,7 +70,7 @@ export default function SearchPage() {
             <div className="flex flex-col gap-3 min-w-0"> {/* 新增 min-w-0 */}
               {filtered.map((med, index) => (
                 <div 
-                  className="group cursor-pointer rounded-xl border border-gray-100 bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.02)] min-w-0" 
+                  className="group cursor-pointer rounded-xl border border-gray-100 bg-white p-4 transition-all hover:translate-y-0.5 hover:border-blue-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.02)] min-w-0" 
                   key={index} 
                   onClick={() => {
                     setSelectedMed(med)
@@ -97,25 +97,27 @@ export default function SearchPage() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-5 rounded-2xl border border-blue-100 bg-blue-50/40 p-6 shadow-[0_4px_12px_rgba(59,130,246,0.02)] animate-fade-in">
               
               {/* 卡片左側:詳細資訊 */}
-              <div className="flex flex-col gap-3 flex-1 w-full min-w-0"> {/* 新增 min-w-0 */}
-                <div className="flex text-sm items-start min-w-0"> {/* 新增 min-w-0 */}
-                  <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-blue-400/80 pt-0.5">Medication:</span>
-                  <span className="font-bold text-gray-800 text-lg min-w-0 break-words">{selectedMed.med_name}</span>
+              <div className="flex flex-col gap-6 flex-1 w-full min-w-0">
+                <div className="flex text-sm items-baseline min-w-0"> 
+                  <span className="w-28 shrink-0 text-xs font-semibold uppercase tracking-wider text-[#868e96]">Medication:</span>
+                  <span className="font-bold text-[#353535] font-semibold text-base min-w-0 break-words">{selectedMed.med_name}</span>
                 </div>
-                <div className="flex text-sm items-start min-w-0">
-                  <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-blue-400/80 pt-0.5">Indication:</span>
-                  <span className="text-gray-700 font-medium min-w-0 break-words">{selectedMed.keyword}</span>
+
+                <div className="flex text-sm items-baseline min-w-0"> 
+                  <span className="w-28 shrink-0 text-xs font-semibold uppercase tracking-wider text-[#868e96]">Indication:</span>
+                  <span className="text-[#353535] font-semibold min-w-0 break-words">{selectedMed.keyword}</span>
                 </div>
-                <div className="flex text-sm items-start min-w-0">
-                  <span className="w-24 shrink-0 text-xs font-semibold uppercase tracking-wider text-blue-400/80 pt-0.5">Use For:</span>
-                  <span className="text-gray-600 min-w-0 break-words">{selectedMed.use_for}</span>
+                
+                <div className="flex text-sm items-baseline min-w-0">
+                  <span className="w-28 shrink-0 text-xs font-semibold uppercase tracking-wider text-[#868e96]">Use For:</span>
+                  <span className="text-[#353535] font-semibold min-w-0 break-words">{selectedMed.use_for}</span>
                 </div>
               </div>
               
               {/* 卡片右側:操作按鈕區 */}
-              <div className="flex flex-col gap-2 w-full md:w-auto shrink-0">
+              <div className="flex flex-col gap-6 w-full md:w-auto shrink-0">
                 <button 
-                  className="h-10 px-6 rounded-xl bg-blue-500 text-sm font-semibold text-white transition-all shadow-sm shadow-blue-500/10 hover:bg-blue-600 active:scale-[0.98]" 
+                  className="h-10 px-6 rounded-xl bg-[#edede9] border border-gray-200 text-sm font-semibold text-[#353535] transition-all shadow-sm hover:bg-[#aad576] active:scale-[0.98]" 
                   onClick={() => {
                     if (selectedMed === null) return toast.error("Select a medication")
                     addMedToNewList(selectedMed)
@@ -126,7 +128,7 @@ export default function SearchPage() {
                 </button>
 
                 <button 
-                  className="h-10 px-6 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-700 active:scale-[0.98]" 
+                  className="h-10 px-6 rounded-xl bg-[#edede9] border border-gray-200 text-sm font-semibold text-[#353535] transition-all shadow-sm hover:bg-[#ffccd5] active:scale-[0.98]" 
                   onClick={() => setSelectedMed(null)}
                 >
                   Search Others
