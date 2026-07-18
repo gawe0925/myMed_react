@@ -75,7 +75,7 @@ export default function RegisterPage() {
             <div className="flex flex-col gap-2.5 mt-2">
             {/* 註冊主按鈕 */}
             <button 
-                className="h-11 w-full rounded-xl bg-blue-500 text-sm font-semibold text-white transition-all shadow-sm shadow-blue-500/10 hover:bg-blue-600 active:scale-[0.98]"
+                className="h-11 w-full rounded-xl bg-[#edede9] text-sm font-semibold text-[#353535] transition-all shadow-sm shadow-gray-500/10 hover:bg-[#d6ccc2] active:scale-[0.98]"
                 onClick={async () => {
                 if (!email || !password) {
                     toast.error("Enter email and password")
@@ -97,7 +97,7 @@ export default function RegisterPage() {
 
             {/* 返回登入按鈕 */}
             <button 
-                className="h-11 w-full rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-700 active:scale-[0.98]"
+                className="h-11 w-full rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-600 transition-all hover:bg-[#e9edc9] hover:text-gray-800 active:scale-[0.98]"
                 onClick={() => navigate("/login")}
             >
                 Back to Login

@@ -79,6 +79,28 @@
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
 
+.counterText {
+  display: flex;
+  align-items: center;    /* 確保在 44px 高度內垂直置中 */
+  justify-content: center;/* 文字內容水平置中 */
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0 4px;
+  white-space: nowrap;    /* 防止文字因為空間不夠被擠壓換行 */
+  transition: color 0.3s ease, font-weight 0.3s ease;
+}
+
+/* 預設灰色 */
+.isNormal {
+  color: #9ca3af; 
+}
+
+/* 達到 10 個變成警示紅字 */
+.isMax {
+  color: #ef4444; 
+  font-weight: 700;
+}
+
 .medSearchResults {
   flex: 1;
   overflow-y: auto;
@@ -389,6 +411,14 @@
 }
 .listAddBtn:hover {
   background-color: #aad576;
+}
+
+.listAddBtn:disabled, /* 這是原生瀏覽器鎖定狀態 */
+.disabledButton {
+  background-color: #f3f4f6 !important; /* 變更淡的灰色 */
+  color: #9ca3af !important;           /* 字變灰 */
+  cursor: not-allowed !important;      /* 變成禁止滑鼠指針 */
+  pointer-events: none;                /* 徹底拔掉任何點擊與 hover 效果 */
 }
 
 .clearBtn {

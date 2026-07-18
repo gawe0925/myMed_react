@@ -2,14 +2,100 @@
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
 import toast, { Toaster } from 'react-hot-toast';
+import { useLocation, Link } from "react-router-dom"
 
 export default function Navbar() {
   const { user, logout } = useAuth()
+  const location = useLocation()
   const navigate = useNavigate()
 
   const handleLogout = async () => {
     await logout()
     navigate("/search")
+  }
+
+  const currentPath = location.pathname
+
+  const renderButtons = () => {
+    switch(currentPath) {
+      case "/login":
+        return (
+          <>
+            <Link to="/register" className="bg-white hover:bg-[#edede9] text-[#353535] px-4 py-2 rounded-md font-semibold text-sm transition-colors">
+              Register
+            </Link>
+            <Link to="/search" className="bg-white hover:bg-[#edede9] text-[#353535] px-4 py-2 rounded-md font-semibold text-sm transition-colors">
+              Search
+            </Link>
+          </>
+        )
+      
+      case "/register":
+        return (
+          <>
+            <Link to="/login" className="bg-white hover:bg-[#edede9] text-[#353535] px-4 py-2 rounded-md font-semibold text-sm transition-colors">
+              Login
+            </Link>
+            <Link to="/search" className="bg-white hover:bg-[#edede9] text-[#353535] px-4 py-2 rounded-md font-semibold text-sm transition-colors">
+              Search
+            </Link>
+          </>
+        )
+
+      case "/search":
+        if (user) {
+          return (
+            <>
+              <button 
+                className="h-9 px-4 rounded-xl bg-[#edede9] text-xs font-semibold text-[#353535] transition-all hover:bg-[#353535] hover:text-white active:scale-[0.98] shadow-sm shadow-slate-100/50"
+                onClick={() => {
+                  logout()
+                  toast.success("You have Logout")
+                  navigate("/search")
+                }}
+              >
+                Log Out
+              </button>
+            </>
+          )
+        }
+        else if (!user) {
+          return (
+            <>
+              <Link to="/login" className="bg-white hover:bg-[#edede9] text-[#353535] px-4 py-2 rounded-md font-semibold text-sm transition-colors">
+                Login
+              </Link>
+            </>
+          )
+        }
+
+      case "/lists":
+        if (user) {
+          return (
+            <>
+              <button 
+                className="h-9 px-4 rounded-xl bg-[#edede9] text-xs font-semibold text-[#353535] transition-all hover:bg-[#353535] hover:text-white active:scale-[0.98] shadow-sm shadow-slate-100/50"
+                onClick={() => {
+                  logout()
+                  toast.success("You have Logout")
+                  navigate("/search")
+                }}
+              >
+                Log Out
+              </button>
+            </>
+          )
+        }
+        else if (!user) {
+          return (
+            <>
+              <Link to="/login" className="bg-white hover:bg-[#edede9] text-[#353535] px-4 py-2 rounded-md font-semibold text-sm transition-colors">
+                Login
+              </Link>
+            </>
+          )
+        }
+    }
   }
 
   return (
@@ -22,16 +108,16 @@ export default function Navbar() {
         
         {/* 灰灰的高級感 Logo 區 */}
         <h2 
-          className="text-lg font-medium tracking-wide text-slate-700 select-none cursor-pointer hover:opacity-80 transition-opacity"
+          className="text-lg font-semibold tracking-wide text-slate-700 select-none cursor-pointer hover:opacity-80 transition-opacity"
           onClick={() => navigate("/search")}
         >
           my<span className="font-bold text-slate-400 ml-0.5">Medication</span>
         </h2>
 
         {/* 右側按鈕區 */}
-        {user ? (
+        {/* {user ? (
           <button 
-            className="h-9 px-4 rounded-xl border border-slate-200 bg-white/50 text-xs font-medium text-slate-600 transition-all hover:bg-slate-50 hover:text-slate-800 active:scale-[0.98] shadow-sm shadow-slate-100/50"
+            className="h-9 px-4 rounded-xl border border-slate-200 bg-white/50 text-xs font-semibold text-[#353535] transition-all hover:bg-slate-50 hover:text-slate-800 active:scale-[0.98] shadow-sm shadow-slate-100/50"
             onClick={() => {
               logout()
               toast.success("You have Logout")
@@ -47,7 +133,11 @@ export default function Navbar() {
           >
             Login
           </button>
-        )}
+        )} */}
+
+        <div className="flex items-center gap-3">
+          {renderButtons()}
+        </div>
 
       </div>
     </div>

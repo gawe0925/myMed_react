@@ -97,7 +97,14 @@ const filtered = keyword.trim() === ""
                   </select>
               }
 
-              <button className={styles.listAddBtn} onClick={() => {
+              {<span className={`${styles.counterText} ${lists.length >= 5 ? styles.isMax : styles.isNormal}`}>
+                Lists: {lists.length}/5
+              </span>}
+
+              <button 
+                disabled={lists.length >= 5}
+                className={`${styles.listAddBtn} ${lists.length >= 5 ? styles.disabledButton : ''}`}
+                onClick={() => {
                 const result = addList()
                 if (!result) return toast.error("Login to add more lists")
               }}>New List</button>
