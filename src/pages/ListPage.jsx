@@ -28,7 +28,7 @@ export default function ListPage() {
   const textareaRef = useRef(null)
 
 
-const filtered = keyword.trim() === "" 
+  const filtered = keyword.trim() === "" 
     ? [] 
     : meds.filter((med) => 
       med.med_name?.toLowerCase().trim().startsWith(keyword.toLowerCase().trim())
@@ -45,7 +45,7 @@ const filtered = keyword.trim() === ""
 
     // set limit for items for each list
     const itemLen = lists.find(list => list.id === Number(selectedList)).items.length
-    if (itemLen >= 15) {
+    if (itemLen >= 10) {
       return toast("⚠️ Maximum items reached")
     }
 
@@ -76,8 +76,6 @@ const filtered = keyword.trim() === ""
       textareaRef.current.focus()
     }
   }, [noteListId])
-
-  console.log()
 
   return (
     <div className={styles.pageWrapper}>
@@ -225,6 +223,9 @@ const filtered = keyword.trim() === ""
                   }
                 </div>
                 <div className={styles.listItemsContainer}>
+                  <div className={`${styles.itemCounterText} ${list.items.length >= 10 ? styles.itemMax : styles.itemNormal}`}>
+                    Medications: {list.items.length}/10
+                  </div>
                   {list.items.map((med, index) =>
                     <div className={styles.medItem} key={index}>
                       <div className={styles.listItemsLeft}>{index + 1}.</div>
