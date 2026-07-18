@@ -168,6 +168,14 @@ export function MedProvider({ children }) {
     setLists(lists.filter(list => list.id !== listId))
   }
 
+  // const listFilterSearch = (selectedListId, keyword) => {
+  //   if (!isReadyRef) return
+
+  //   const items = lists.find(list => list.id === selectedListId)?.items
+    
+
+  // }
+
   return (
     <MedContext.Provider value={{ 
       meds, lists, isReady, isReadyRef, addList, renameList, addMedToList, 
