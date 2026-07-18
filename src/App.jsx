@@ -10,29 +10,29 @@ import AuthGate from "./routes/AuthGate"
 
 export default function App() {
   return (
-    <AuthProvider>
-      <MedProvider>
-        <AuthGate>
-          <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Navigate to="/search" replace />} />
+    <BrowserRouter>
+      <AuthProvider>
+        <MedProvider>
+          <AuthGate>
+              <Routes>
+                  <Route path="/" element={<Navigate to="/search" replace />} />
 
-                <Route path="/login" element={
-                    <LoginPage />
-                } />
-                <Route path="/register" element={
-                    <RegisterPage />
-                } />
-                <Route path="/search" element={
-                    <SearchPage />
-                } />
-                <Route path="/lists" element={
-                    <ListPage />
-                } />
-            </Routes>    
-          </BrowserRouter>
-        </AuthGate>
-      </MedProvider>
-    </AuthProvider>
+                  <Route path="/login" element={
+                      <LoginPage />
+                  } />
+                  <Route path="/register" element={
+                      <RegisterPage />
+                  } />
+                  <Route path="/search" element={
+                      <SearchPage />
+                  } />
+                  <Route path="/lists" element={
+                      <ListPage />
+                  } />
+              </Routes>    
+          </AuthGate>
+        </MedProvider>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
