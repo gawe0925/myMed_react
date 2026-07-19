@@ -107,7 +107,8 @@ export function MedProvider({ children }) {
     return true
   }
 
-  const renameList = (id, newName) => {
+  const renameList = (id, name) => {
+    const newName = name.replace(/[<>:"'/]/g, "").trim();
     setLists(lists.map(list => list.id === id ? {...list, name: newName} : list))
   }
 
@@ -167,14 +168,6 @@ export function MedProvider({ children }) {
   const removeList = (listId) => {
     setLists(lists.filter(list => list.id !== listId))
   }
-
-  // const listFilterSearch = (selectedListId, keyword) => {
-  //   if (!isReadyRef) return
-
-  //   const items = lists.find(list => list.id === selectedListId)?.items
-    
-
-  // }
 
   return (
     <MedContext.Provider value={{ 
