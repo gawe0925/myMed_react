@@ -4,40 +4,39 @@
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
 ---
 
 ## 🩺 About
 
-**myMedication** was built after observing recurring patient confusion about prescription purposes on the pharmacy floor. Rather than a textbook exercise, this tool was shaped by direct feedback from patients and pharmacists in a real dispensary environment processing 300–600 prescriptions daily.
+myMedication was built after observing recurring patient confusion about prescription purposes on the pharmacy floor. Rather than a textbook exercise, this tool was shaped by direct feedback from patients and pharmacists in a real dispensary environment processing 300–600 prescriptions daily.
 
-This is a full rebuild of the original project — migrating from a static JSON-based frontend to a full-stack React + Django REST Framework application with user authentication and persistent storage.
+This project is a full-stack transition migrating from a static JSON-based prototype to a **Serverless Full-Stack React application**, leveraging **Firebase** for cloud persistence, user authentication, and secure data storage without the overhead of traditional server management.
 
 ---
 
 ## ✨ Features
 
-- 🔍 **Fuzzy medication search** — instant results as you type
-- 📋 **Custom medication lists** — create and manage multiple personal lists
-- ✏️ **Inline list renaming** — click to rename, click away to save
-- 📝 **Personal notes** — add notes to individual medications
-- 🔐 **User authentication** — save your lists across sessions *(in progress)*
-- ☁️ **Cloud sync** — persist lists to Django backend *(in progress)*
+* **🔍 Fuzzy Medication Search** — Instant reference results as you type.
+* **📋 Custom Medication Lists** — Create and manage multiple personal lists seamlessly.
+* **✏️ Inline List Renaming** — Click to rename a list, click away to instantly save.
+* **📝 Personal Notes** — Add custom notes to individual medications within your lists.
+* **🔐 User Authentication** — Secure signup and login via Firebase Auth to protect personal lists.
+* **☁️ Serverless Cloud Sync** — Real-time persistent storage synced directly to Firebase Firestore (NoSQL).
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Tech |
+| Layer | Technology |
 |---|---|
-| Frontend | React, Vite, React Router, Context API |
-| Backend | Django, Django REST Framework *(in progress)* |
-| Database | PostgreSQL *(in progress)* |
-| Auth | JWT Token Authentication *(in progress)* |
-| CI/CD | GitHub Actions |
+| **Frontend** | React, Vite, React Router, Context API, CSS Modules |
+| **Backend / BaaS** | Firebase (Serverless Architecture) |
+| **Database** | Firebase Firestore (NoSQL Cloud Database) |
+| **Authentication** | Firebase Authentication |
+| **CI/CD & Hosting**| GitHub Actions, Vercel |
 
 ---
 
@@ -45,7 +44,7 @@ This is a full rebuild of the original project — migrating from a static JSON-
 
 ```bash
 # Clone the repo
-git clone https://github.com/gawe0925/myMed_react.git
+git clone [https://github.com/gawe0925/myMed_react.git](https://github.com/gawe0925/myMed_react.git)
 cd myMed_react
 
 # Install dependencies
@@ -60,20 +59,41 @@ npm run dev
 ## 📁 Project Structure
 
 ```
-src/
-├── pages/
-│   ├── LoginPage.jsx
-│   ├── SearchPage.jsx
-│   └── MainPage.jsx
-├── components/
-│   ├── MedicationCard.jsx
-│   └── ...
-├── context/
-│   └── MedContext.jsx
-├── data/
-│   └── medications.json
-└── css/
-    └── MainPage.css
+med_react/ (Project Root)
+├── .github/workflows/    # CI/CD deployment pipelines
+├── public/               # Static assets (Favicon, SVG icons)
+├── src/
+│   ├── assets/           # Images and media assets
+│   ├── components/       # Reusable UI components
+│   │   ├── ListItem.jsx
+│   │   ├── MedList.jsx
+│   │   ├── MedicationCard.jsx
+│   │   ├── Navbar.jsx
+│   │   └── SearchBar.jsx
+│   ├── context/          # Global state management
+│   │   ├── AuthContext.jsx
+│   │   └── MedContext.jsx
+│   ├── css/              # Component stylesheets
+│   │   └── ListPage.module.css
+│   ├── data/             # Local fallbacks or static data
+│   ├── pages/            # View components (Routes)
+│   │   ├── ListPage.jsx
+│   │   ├── LoginPage.jsx
+│   │   ├── RegisterPage.jsx
+│   │   └── SearchPage.jsx
+│   ├── routes/           # Authentication guards
+│   │   └── AuthGate.jsx
+│   ├── App.css
+│   ├── App.jsx           # Main application router
+│   ├── firebase.js       # Firebase configuration & initialization
+│   ├── index.css
+│   └── main.jsx          # Application entry point
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package.json
+├── vercel.json           # Vercel SPA routing configurations
+└── README.md
 ```
 
 ---
@@ -84,12 +104,11 @@ src/
 - [x] Custom medication lists
 - [x] Inline list renaming
 - [x] Personal notes per medication
-- [x] CI pipeline via GitHub Actions
-- [ ] Django REST API backend
-- [ ] User authentication (JWT)
-- [ ] Persist lists to database
+- [x] Firebase User Authentication (Sign up / Login)
+- [x] Persistent Cloud Storage with Firestore (NoSQL)
+- [x] CI/CD Pipeline via GitHub Actions & Vercel
+- [x] Mobile responsive layout (RWD) optimizations
 - [ ] Save / export list as PDF
-- [ ] Mobile responsive layout
 
 ---
 
