@@ -1,8 +1,8 @@
-# myMedication
+# 💊 myMedication
 
 > A patient-facing medication reference and personal list manager — built from real pharmacy floor experience.
 
-**💊 [Live Demo](https://my-med-react.vercel.app/search)**
+**🔗 Live Demo:  [myMedication](https://my-med-react.vercel.app/search)** 
 
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
