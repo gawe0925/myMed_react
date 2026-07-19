@@ -162,7 +162,7 @@
 .medDetailLabel {
   width: 80px;
   color: #868e96;
-  font-weight: 500;
+  font-weight: 600;
   flex-shrink: 0;
 }
 
@@ -189,10 +189,19 @@
   display: flex;
   gap: 8px;
 }
-.selectedMedActions button {
-  flex: 1;
-  font-size: 13px;
-  height: 38px;
+
+.existedItemButton {
+  color: #adb5bd;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  font-weight: 600;
+  border: #ced4da solid 0.08px;
+  transition: all 0.2s ease-in-out; 
+}
+
+.existedItemButton:hover {
+  background-color: #dee2e6;
+  color: #353535;
 }
 
 .listCard {
@@ -239,18 +248,41 @@
 }
 
 .listCardRemoveBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
-  color: #fa5252;
+  color: #c9ada7;
   height: 32px;
   padding: 0 8px;
   border-radius: 6px;
   cursor: pointer;
   border: none;
-  display: inline-flex;
-  align-items: center;
+  white-space: nowrap;
+  /* 讓按鈕的寬度變化、背景顏色變化都有 0.2 秒的滑順過渡 */
+  transition: all 0.2s ease-in-out; 
 }
+
 .listCardRemoveBtn:hover {
+  max-width: auto;
   background-color: #fff5f5;
+  color: #fa5252;
+}
+
+.listCardRemoveBtn .btnText {
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;   
+  transition: max-width 0.2s ease-in-out, opacity 0.2s ease-in-out, margin-left 0.2s ease-in-out;
+}
+
+/* 🚀 當按鈕被 Hover 時的聯動 */
+.listCardRemoveBtn:hover .btnText {
+  max-width: 80px;
+  opacity: 1;
+  margin-left: 6px;
 }
 
 .btnText {
@@ -429,9 +461,11 @@
   font-weight: 500;
   height: 44px;
   padding: 0 16px;
-  background-color: #edede9;
+  background-color: #ccc5b9;
   color: #353535;
+  transition: all 0.2s ease-in-out;
 }
+
 .listAddBtn:hover {
   background-color: #aad576;
 }
@@ -444,7 +478,33 @@
   pointer-events: none;                /* 徹底拔掉任何點擊與 hover 效果 */
 }
 
+.selectedMedActions button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  font-size: 13px;
+  height: 38px;
+}
+
+.addToListButton {
+  background-color: #6a994e;
+  border-radius: 12px;
+  color: #FFFFFF;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.addToListButton:hover {
+  background-color: #588157;
+}
+
 .clearBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
   cursor: pointer;
   border: none;
   border-radius: 8px;
@@ -452,7 +512,7 @@
   font-weight: 500;
   height: 44px;
   padding: 0 16px;
-  background-color: #edede9;
+  background-color: #e9ecef;
   color: #353535;
   transition: background 0.2s, border-color 0.2s;
 }

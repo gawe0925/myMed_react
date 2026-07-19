@@ -4,6 +4,7 @@ import { useMed } from "../context/MedContext"
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from "../context/AuthContext"
 import Navbar from "../components/Navbar"
+import DynamicPrompt from '../components/DynamicPrompt'
 import '../index.css'
 
 export default function SearchPage() {
@@ -56,6 +57,11 @@ export default function SearchPage() {
               <span className="mb-1 text-xl opacity-70">🔍</span>
               <p>Any Medication Name to Search</p>
             </div>
+            // <div className="flex flex-1 flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 bg-gray-50/50 p-4 text-center text-sm font-medium text-gray-400">
+            //   <span className="mb-1 text-xl opacity-70">🔍</span>
+            //   <DynamicPrompt />
+            // </div>
+            
           )}
 
           {/* 查無結果提示 */}
@@ -117,7 +123,7 @@ export default function SearchPage() {
               {/* 卡片右側:操作按鈕區 */}
               <div className="flex flex-col gap-6 w-full md:w-auto shrink-0">
                 <button 
-                  className="h-10 px-6 rounded-xl bg-[#edede9] border border-gray-200 text-sm font-semibold text-[#353535] transition-all shadow-sm hover:bg-[#aad576] active:scale-[0.98]" 
+                  className="h-10 px-6 rounded-xl bg-[#e0e2db] border border-gray-200 text-sm font-semibold text-[#353535] transition-all shadow-sm hover:bg-[#aad576] active:scale-[0.98]" 
                   onClick={() => {
                     if (selectedMed === null) return toast.error("Select a medication")
                     addMedToNewList(selectedMed)
@@ -128,10 +134,15 @@ export default function SearchPage() {
                 </button>
 
                 <button 
-                  className="h-10 px-6 rounded-xl bg-[#edede9] border border-gray-200 text-sm font-semibold text-[#353535] transition-all shadow-sm hover:bg-[#ffccd5] active:scale-[0.98]" 
+                  className="flex items-center gap-2 h-10 px-6 rounded-xl bg-[#f8f9fa] border border-gray-200 text-sm font-semibold text-[#353535] transition-all shadow-sm hover:bg-[#ffccd5] active:scale-[0.98]" 
                   onClick={() => setSelectedMed(null)}
                 >
                   Search Others
+
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+
                 </button>
               </div>
 
