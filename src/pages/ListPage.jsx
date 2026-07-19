@@ -46,8 +46,11 @@ export default function ListPage() {
     if (!selectedListId) return
 
     const selectedList = lists?.find(list => list.id === Number(selectedListId))
-    setCurrentList(selectedList)
-    setCurrentListItems(selectedList.items)
+
+    if (lists.length > 0) {
+      setCurrentList(selectedList)
+      setCurrentListItems(selectedList.items)
+    }
   
   }, [lists, selectedListId])
 
