@@ -10,14 +10,14 @@ export default function LandingPage() {
 
   return (
     /* app-shell: 溫暖柔和的 Baby Blue 底色 */
-    <div className="min-h-screen mt-6 w-full bg-[#f2f7fb] text-slate-700 flex flex-col pt-16 pb-12 px-4 md:px-6 font-sans">
+    <div className="min-h-screen mt-2 w-full bg-[#f2f7fb] text-slate-700 flex flex-col pt-16 pb-12 px-4 md:px-6 font-sans">
 
       <Navbar />
 
       <Toaster />
 
       {/* main-container: 純白主卡片 */}
-      <div className="mx-auto w-full max-w-4xl rounded-2xl bg-white p-6 md:p-12 shadow-[0_4px_25px_rgba(186,215,233,0.25)] border border-sky-100 flex flex-col gap-12 text-left">
+      <div className="mx-auto w-full max-w-4xl rounded-2xl bg-white p-6 md:p-12 shadow-[0_4px_25px_rgba(186,215,233,0.25)] border border-gray-100 flex flex-col gap-12 text-left">
 
         {/* ================= HERO SECTION ================= */}
         <header className="flex flex-col items-start w-full">
@@ -43,20 +43,28 @@ export default function LandingPage() {
             </p>
           </div>
           
-          <div className="flex gap-6 justify-start mt-6 flex-wrap w-full">
+          <div className="flex gap-6 justify-start mt-6 flex-wrap w-full relative z-10">
             <button
               onClick={() => navigate("/search")}
-              className="h-10 px-6 rounded-lg bg-[#ffcb69] border border-[#dee2e6] text-sm font-semibold text-[#212529] transition-all shadow-sm hover:bg-[#ff9e00] active:scale-[0.98]"
+              className="h-10 px-6 rounded-lg bg-[#ffcb69] border border-[#dee2e6] text-sm font-semibold text-[#212529] transition-all shadow-sm hover:bg-[#ff9e00] active:scale-[0.98] cursor-pointer"
             >
               Start building your list
             </button>
+
             <a 
               href="https://github.com/gawe0925/myMed_react" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="h-10 px-6 inline-flex items-center rounded-lg bg-sky-50 border border-sky-200/80 text-sm font-semibold text-gray-550 transition-all shadow-sm hover:bg-sky-100 active:scale-[0.98]"
+              className="relative z-10 h-10 px-6 gap-2 inline-flex items-center justify-center rounded-lg bg-white border border-sky-200 text-sm font-semibold text-sky-800 transition-all shadow-sm hover:bg-sky-50 active:scale-[0.98] cursor-pointer select-none"
             >
-              View the code
+              <svg 
+                aria-hidden="true" 
+                viewBox="0 0 24 24" 
+                className="w-4 h-4 fill-current shrink-0 pointer-events-none"
+              >
+                <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg>
+              <span>GitHub</span>
             </a>
           </div>
           
@@ -368,7 +376,7 @@ export default function LandingPage() {
           <div className="flex gap-3 justify-start flex-wrap">
             <button
               onClick={() => navigate("/search")}
-              className="h-10 px-6 rounded-lg bg-[#8ac926]/50 border border-[#8ac926]/10 text-sm font-semibold text-[#343a40] transition-all shadow-sm hover:bg-[#f0ffce] hover:border-[#dee2e6] active:scale-[0.98]"
+              className="h-10 px-6 rounded-lg bg-[#8ac926]/50 border border-[#8ac926]/10 text-sm font-semibold text-[#343a40] transition-all shadow-sm hover:bg-[#f0ffce] hover:border-[#dee2e6] active:scale-[0.98] cursor-pointer"
             >
               Start building your list
             </button>
@@ -376,9 +384,17 @@ export default function LandingPage() {
               href="https://github.com/gawe0925/myMed_react" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="h-10 px-6 inline-flex items-center rounded-lg bg-white border border-sky-200 text-sm font-semibold text-sky-800 transition-all shadow-sm hover:bg-sky-50 active:scale-[0.98]"
+              className="h-10 px-6 gap-2 inline-flex items-center rounded-lg bg-white border border-sky-200 text-sm font-semibold text-sky-800 transition-all shadow-sm hover:bg-sky-50 active:scale-[0.98]"
             >
-              View the code on GitHub
+            {/* GitHub SVG Icon */}
+            <svg 
+              aria-hidden="true" 
+              viewBox="0 0 24 24" 
+              className="w-4 h-4 fill-current"
+            >
+              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+            </svg>
+              GitHub
             </a>
           </div>
         </section>
