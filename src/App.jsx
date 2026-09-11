@@ -6,6 +6,7 @@ import ListPage from "./pages/ListPage"
 import SearchPage from "./pages/SearchPage"
 import RegisterPage from "./pages/RegisterPage"
 import AuthGate from "./routes/AuthGate"
+import LandingPage from "./pages/LandingPage"
 
 
 export default function App() {
@@ -15,8 +16,9 @@ export default function App() {
         <MedProvider>
           <AuthGate>
               <Routes>
-                  <Route path="/" element={<Navigate to="/search" replace />} />
-
+                  <Route path="/" element={
+                      <LandingPage />
+                  } />
                   <Route path="/login" element={
                       <LoginPage />
                   } />

@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from "react"
 
 export default function DynamicPrompt() {
     const searchPrompts = [
-        "Search by medication name...", 
-        "Try searching 'Metformin'...", 
-        "What is 'Atorvastatin' used for?"
+        "What is 'Atorvastatin' used for ? 🤔", 
+        "I forgot which medication my mom needs 😕", 
+        "Which brand does my client prefer ?"
     ]
 
     const [promptIndex, setPromptIndex] = useState(0)
@@ -29,7 +29,7 @@ export default function DynamicPrompt() {
             setIsDeleting(false); // 保持非刪除狀態
             // 觸發【狀態 2：靜止期】➡️ 停在畫面上 2 秒，2 秒後開啟「刪除模式」
             clearInterval(timer);
-            setTimeout(() => setIsDeleting(true), 2000);
+            setTimeout(() => setIsDeleting(true), 3000);
             return;
             }
         } else {
