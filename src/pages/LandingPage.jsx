@@ -21,9 +21,9 @@ export default function LandingPage() {
 
         {/* ================= HERO SECTION ================= */}
         <header className="flex flex-col items-start w-full">
-          <div className="mb-4 px-3.5 py-2 rounded-md bg-[#e7ecef] text-xs font-semibold text-[#343a40] tracking-wide">
+          {/* <div className="mb-4 px-3.5 py-2 rounded-md bg-[#e7ecef] text-xs font-semibold text-[#343a40] tracking-wide">
             Built on the pharmacy floor, not in a lab
-          </div>
+          </div> */}
           
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#212529] leading-tight max-w-2xl">
             Your medications shouldn't need <em className="italic font-normal text-yellow-600">four different apps</em> to manage.
