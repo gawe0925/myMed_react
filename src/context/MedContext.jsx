@@ -101,6 +101,7 @@ export function MedProvider({ children }) {
     setLists([...lists, {
         id: Date.now(),
         name: `list_${lists.length +1}`,
+        note: "",
         items: []
     }
     ])
@@ -128,6 +129,15 @@ export function MedProvider({ children }) {
     
     return true
 
+  }
+
+  const addNoteToList = (listId, text) => {
+    setLists(oriLists =>
+      oriLists.map(list => list.id === listId
+        ? {...list, note: text}
+        : list
+      )
+    )
   }
 
   const removeMedFromList = (listId, medId) => {
@@ -160,6 +170,7 @@ export function MedProvider({ children }) {
     const newList = {
       id: newId,
       name: "list_1",
+      note: "",
       items: [med]
     }
     setLists([newList])
@@ -172,7 +183,7 @@ export function MedProvider({ children }) {
   return (
     <MedContext.Provider value={{ 
       meds, lists, isReady, isReadyRef, addList, renameList, addMedToList, 
-      addMedToNewList, removeList, removeMedFromList
+      addMedToNewList, removeList, removeMedFromList, addNoteToList
      }}>
       {children}
     </MedContext.Provider>
