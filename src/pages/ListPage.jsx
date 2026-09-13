@@ -98,6 +98,16 @@ export default function ListPage() {
     }
   }, [noteListId])
 
+  useEffect(() => {
+    if (noteListId !== null && textareaRef.current) {
+      const el = textareaRef.current;
+      el.focus();
+
+      const length = el.value.length;
+      el.setSelectionRange(length, length);
+    }
+  }, [noteListId])
+
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.appShell}>
