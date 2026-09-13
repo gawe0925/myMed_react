@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/* 💡 定義膠囊 / 小標籤專用的流體字體 (11px ~ 15px) */
+@utility text-fluid-badge {
+  font-size: clamp(11px, 1.2vw, 15px);
+}
+
+/* 💡 定義內文專用的流體字體 (14px ~ 18px) */
+@utility text-fluid-body {
+  font-size: clamp(14px, 1.5vw, 18px);
+}
+
+/* 💡 定義大標題專用的流體字體 (24px ~ 48px) */
+@utility text-fluid-title {
+  font-size: clamp(24px, 4vw, 48px);
+}
+
 body {
   background-color: #f8f9fa;
   color: #333333;
