@@ -12,7 +12,8 @@ export default function ListPage() {
 
   const { 
     meds, lists, addList, renameList, addMedToList, isReadyRef,
-    addMedToNewList, removeList, isReady, removeMedFromList
+    addMedToNewList, removeList, isReady, removeMedFromList,
+    addNoteToList
    } = useMed()
 
   const { user, logout } = useAuth()
@@ -291,10 +292,14 @@ export default function ListPage() {
                         ref={textareaRef}
                         value={listNote}
                         onChange={(e) => setListNote(e.target.value)}
-                        onBlur={() => setNoteListId(null)}
+                        onBlur={() => {
+                          addNoteToList(list.id, listNote)
+                          setNoteListId(null)
+                        }}
                       />
                     : <button className={styles.noteBtn} onClick={() => {
                         setNoteListId(list.id)
+                        setListNote(list.note || '')
                       }}>Note</button>
                   }
                 </div>
