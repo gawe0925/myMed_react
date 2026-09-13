@@ -80,6 +80,7 @@ med_react/ (Project Root)
 │   │   └── ListPage.module.css
 │   ├── data/             # Local fallbacks or static data
 │   ├── pages/            # View components (Routes)
+│   │   ├── LandingPage.jsx
 │   │   ├── ListPage.jsx
 │   │   ├── LoginPage.jsx
 │   │   ├── RegisterPage.jsx
@@ -111,14 +112,16 @@ med_react/ (Project Root)
 - [x] Persistent Cloud Storage with Firestore (NoSQL)
 - [x] CI/CD Pipeline via GitHub Actions & Vercel
 - [x] Mobile responsive layout (RWD) optimizations
-- [ ] Save / export list as PDF
+- [ ] Share personal list to family members/caregivers
 
 ---
 
 ## 👨‍💻 Author
 
 **Mark Cheng**
-Pharmacy Assistant turned Software Developer — building tools that solve real problems from the pharmacy floor.
+Built to fix real-world pharmacy challenges.
+Born on the dispensary floor and shaped by direct feedback from pharmacists and patients. 
+I transformed frontline healthcare insights into a production-ready application to streamline daily workflows.
 
 [![GitHub](https://img.shields.io/badge/GitHub-gawe0925-181717?style=flat&logo=github)](https://github.com/gawe0925)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Mark_Cheng-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/mark-cheng-b9175025b)
