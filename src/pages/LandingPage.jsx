@@ -30,12 +30,12 @@ export default function LandingPage() {
           </h1>
 
           <div className="space-y-4 text-left mt-6">
-            <div className="inline-flex items-center gap-3 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 shadow-sm backdrop-blur-sm">
-              <span className="text-s font-semibold text-[#1b4332]/60">Search medication</span>
-              <span className="text-s text-slate-500">→</span>
-              <span className="text-s font-semibold text-[#1b4332]/70">Build your list</span>
-              <span className="text-s text-slate-500">→</span>
-              <span className="text-s font-semibold text-[#1b4332]/90">Add personal notes</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-3 py-1.5 shadow-sm backdrop-blur-sm sm:gap-3 sm:px-4 sm:py-2">
+              <span className="text-fluid-badge font-semibold text-[#1b4332]/60">Search medication</span>
+              <span className="text-fluid-badge text-slate-500">→</span>
+              <span className="text-fluid-badge font-semibold text-[#1b4332]/70">Build your list</span>
+              <span className="text-fluid-badge text-slate-500">→</span>
+              <span className="text-fluid-badge font-semibold text-[#1b4332]/90">Add personal notes</span>
             </div>
 
             <p className="text-sm md:text-base text-slate-600 leading-relaxed max-w-xl">
